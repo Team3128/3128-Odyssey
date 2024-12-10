@@ -7,4 +7,5 @@ This place functions as a documentary and history of ideas we hope to pursue in 
 Authors: William Yuan (Wallim)
 
 ### 2024-2025 School Year
-- 
+- Minibot docu
+- NARDash docu
