@@ -102,10 +102,10 @@ __RESPONSIBILITY OF SOFT LEAD + DEPT COORD__
 ## Github Submodule Guide
 ### What is a Submodule?
 <p> A Git Submodule is a specific folder or address within a repository or project that directs the contents of another respository into the specified file location. 
-Submodules are overlooked by the Git machine unless the submodule is entered. When looking at changes throught Github Desktop, changes made inside the module will not be detected and must be handled through the console.<p>
+Submodules are overlooked by the Git machine unless the submodule is entered. When looking at changes through Github Desktop, changes made inside the module will not be detected and must be handled through the console.<p>
 
 <p>The main component behind a Git Submodule is the `.gitmodules` file that can either be auto-generated or manually created. 
-The contents of this file provides the necessary information Submodule setup in the project, but further steps are required to setup code usage.<p>
+The contents of this file provides the necessary information for Submodule setup in the project, but further steps are required to setup code usage.<p>
 
 The contents of the `.gitmodules`:
 ```
@@ -119,7 +119,7 @@ The contents of the `.gitmodules`:
 Submodules can be accessed and configured using the `git submodule` commands in the terminal.
 
 ### Removing Submodule and Directories
-To remove submodule, directory, and related chache:
+To remove submodule, directory, and related cache:
 ```
 git rm [-f | --force] [-n] [-r] [--cached] [--ignore-unmatch] [--quiet] [--pathspec-from-file=<file> [--pathspec-file-nul]] [--] [<pathspec>…​]
 ```
@@ -140,9 +140,9 @@ git submodule add https://github.com/Team3128/3128-common.git libs/3128-common
 `--force` may be appended if required.
 
 ### Configuring Gradle Implementation
-In order for porjects in the main repository to acess files from the submodules, the directory must be included in the gradle proejct, and it must be configured as an implementation. <br>
+In order for projects in the main repository to access files from the submodules, the directory must be included in the gradle project, and it must be configured as an implementation. <br>
 
-Navigate to the `settings.gradle` file in the main proejct and append the following inclusion and project:
+Navigate to the `settings.gradle` file in the main project and append the following inclusion and project:
 ```
 include ':libs:3128-common'
 project(':libs:3128-common').projectDir = file('libs/3128-common')
@@ -173,7 +173,7 @@ cd ../..
 ./gradlew build
 ```
 
-### Quick for Submodule Steps
+### Quick Submodule Setup
 1. Remove any existing directories or chache
 ```
 git rm -r --cached libs/3128-common
@@ -208,7 +208,7 @@ cd ../..
 ```
 
 ### Basic Git Commands
-The following is taken from the git help page.
+The following is taken from the Git help page.
 
 > To use these commands on a submodule, the `git submodule foreach` can be appended to the front to call for all modules, or the command can be called by navigating to the submodule directory.
 
