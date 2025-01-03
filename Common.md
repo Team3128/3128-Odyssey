@@ -264,3 +264,12 @@ To collaborate:
 9. `git commit -m <COMMIT MESSAGE>`		Commit staged changes to current local branch
 10. `git push`		Push commit changes from local to origin
 
+### RUNNING THE AUTO BASH SETUP
+__Download and put the submod_setup.sh file into your repository. Then run the following cmds.__
+
+```
+chmod +x submod_setup.sh
+./submod_setup.sh submodule
+
+```
+
