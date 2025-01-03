@@ -265,7 +265,7 @@ To collaborate:
 10. `git push`		Push commit changes from local to origin
 
 ### RUNNING THE AUTO BASH SETUP
-__Download and put the submod_setup.sh file into your repository. Then run the following cmds.__
+__Download and put the submod_setup.sh file into your repository. Then run the following cmds. THIS ALLOWS YOU TO SKIP THE MANUAL SETUP PROCESS.__
 
 ```
 chmod +x submod_setup.sh
