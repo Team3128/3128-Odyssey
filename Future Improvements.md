@@ -13,3 +13,20 @@ Authors: William Yuan (Wallim)
 - Yearly Integration docu
 - Practicals -> common errors and how to account
 - 
+
+### IDEAS FOR CONTROL INNOVATION
+- NARASK web
+  - quick search engine for documentation/solutions
+  - web version of the github
+  - includes visuals
+- NARDDash
+  - "click n go", drive through interaction with the dashboard
+  - wasd swerve control, arrow keys to turn
+  - unit testing
+  - doglog visualization
+- NARPit
+  - battery logging system
+- LED
+  - 
+- Common
+  - 
