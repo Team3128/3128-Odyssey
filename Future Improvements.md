@@ -24,9 +24,14 @@ Authors: William Yuan (Wallim)
   - wasd swerve control, arrow keys to turn
   - unit testing
   - doglog visualization
+  - visual CAN robot issue
 - NARPit
   - battery logging system
+  - lending tracker
 - LED
   - 
 - Common
-  - 
+- Robot
+  - JSON, toggling subsystems, certain config, constants?
+  - annotations, epilogue
+  - auto pid tuning
