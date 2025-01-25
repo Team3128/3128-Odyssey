@@ -12,7 +12,7 @@ Authors: William Yuan (Wallim)
 - submodules must be removed before making a push to a branch (people trying to access thatbranch with a submod pushed will deny them access), meaning that these should be for development purpose, we must still rely on releases. implement a .gitignore to account for this
 - Yearly Integration docu
 - Practicals -> common errors and how to account
-- 
+- if you run into an indexing error when trying to shift branches, attempt running "git submodule update (--remote)"
 
 ### IDEAS FOR CONTROL INNOVATION
 - NARASK web
