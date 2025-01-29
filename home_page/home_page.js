@@ -1,7 +1,9 @@
 data = [
-    {content: "Vision Docs", keys: ["vision", "cam", "cameras"], value: 0},
-    {content: "Setting up OPis", keys: ["vision", "cam", "cameras", "opi"], value: 0},
-    {content: "Subsystem", keys: ["car", "NAR"], value: 0},
+    {content: "Github Best Practices", keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], value: 0},
+    {content: "Future Improvements", keys: ["minibot", "NARDash", "NARASK", "NARPit", "LED"], value: 0},
+    {content: "Practicals", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
+    {content: "Robot-Github", keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], value: 0},
+
 ];
 
 function test() {
