@@ -1,13 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
-body {
-    font-family: 'Roboto Flex', sans-serif;
-    color: #000;
-    margin: 0;
-}
-
 #cover {
     background-image: url('../img/home.jpg');
     background-size: cover;
+}
+
+#cover, #project_menu {
     padding: 0px;
     margin: 0px;
     display: flex;
@@ -70,21 +66,4 @@ body {
     width: 10vw;
     height: 2px;
     background: #ffffff;
-}
-
-#scroll_line::before {
-    animation: animate 5s linear infinite;
-    width:0vw
-}
-
-@keyframes animate {
-    0% {
-        width: 0;
-    }
-    50% {
-        width: 10px;
-    }
-    0% {
-        width: 0;
-    }
 }
