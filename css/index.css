@@ -6,31 +6,8 @@ body {
     overflow-x: hidden;
 }
 
-html {
-    scroll-behavior: smooth;
+html::-webkit-scrollbar {
+  display: none;
 }
-
-/* width */
-::-webkit-scrollbar {
-    width: 7px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #e2ecf1;
-  }
-  
-  /* Handle */
-  body::-webkit-scrollbar-thumb {
-    background: #a9cbda;
-    border-radius: 8px;
-    height: 1px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(15, 80, 93);
-  }
-
 
    
