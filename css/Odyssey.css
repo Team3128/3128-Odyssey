@@ -67,3 +67,50 @@
     height: 2px;
     background: #ffffff;
 }
+
+
+#project_menu {
+    flex-direction: row;
+}
+
+.project_item {
+    flex-basis: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* margin: 1vw; */
+    background-color: rgba(73, 126, 133, 0.666);
+    height: 100vh;
+    font-size: 6vh;
+    gap: px;
+}
+
+#narask {
+    /* margin-left: 2vw; */
+    background-color: #f3f6fc;
+}
+
+#narpit {
+    background-color: #F8FAFC;
+
+}
+
+#nartech {
+    background-color: #fefefe;
+
+}
+
+#neptune {
+    /* margin-right: 2vw; */
+    background-color: #f4fbfa;
+}
+
+#nar {
+    margin:0%;
+}
+
+#menu_text {
+    margin: 2vw;
+}
+
