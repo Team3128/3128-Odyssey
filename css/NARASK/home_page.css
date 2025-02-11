@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(lightblue, #FFF4F0);
+    background-attachment: fixed;
+    margin: 0px;
+    padding: 0px;
+}
+
+.content_box {
+    background-color: white;
+    padding: 20px;
+    margin: 3vw;
+    border-radius: 15px;
+}
+
+.search_item {
+    background-color: lightgray;
+    margin: 2vw;
+    border-radius: 15px;
+}

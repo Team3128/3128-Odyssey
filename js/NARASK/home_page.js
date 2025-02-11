@@ -1,11 +1,16 @@
 data = [
-    {content: "Github Best Practices", keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], value: 0, link: "/robot_github/robot_github.html"},
+    {
+        content: "Github Best Practices", 
+        keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], 
+        value: 0, 
+        link: "/robot_github/robot_github.html"
+    },
     {content: "Future Improvements", keys: ["minibot", "NARDash", "NARASK", "NARPit", "LED"], value: 0},
     {content: "Practicals", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
     {content: "Robot-Github", keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], value: 0},
 ];
 
-function test() {
+function runSearch() {
     reset();
 
     const query = document.getElementById('searchBox').value.toLowerCase();
