@@ -8,20 +8,23 @@
     <script src="/js/NARASK/home_page.js"></script>
 </head>
 <body>
-        <div class="content_box">
-            <div>
-                <input autocomplete="off" type="search" id="searchbox" placeholder="Search...">
-                <button onclick="runSearch()">Search</button>
-                <ul id="results"></ul>
-            </div>
-            <div>
-                <a href='/common/common.html'>Common</a> <br>
-                <a href='/future_improvements/future_improvements.html'>Future Improvements</a> <br>
-                <a href='/practicals/practicals.html'>Practicals</a> <br>
-                <a href='/robot_code/robot_code.html'>Robot Code</a> <br>
-                <a href='/robot_github/robot_github.html'>Robot Github</a> <br>
-                <a href='/testbench/testbench.html'>Testbench</a> <br>
-            </div>
+    <div id="header">
+        <h1>NARASK</h1>
+        <div id="wrapper">
+            <input autocomplete="off" type="text" id="searchbox" placeholder="Search">
+            <button id="submit_button" onclick="runSearch()">Search</button>
         </div>
+    </div>
+    <div id="search_body">
+        <div id="sidebar">
+            <h3>Filter</h3>
+            <label for="common"><input type="checkbox" id="common" name="common" value="common">Common</label><br>
+            <label for="practicals"><input type="checkbox" id="practicals" name="practicals" value="practicals">Practicals</label><br>
+            <label for="github"><input type="checkbox" id="github" name="github" value="github">Github</label><br>
+        </div>
+        <div id="results"></div>
+    </div>
+
+    <script>displayResults(data);</script>
 </body>
 </html>
