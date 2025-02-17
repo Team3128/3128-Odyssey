@@ -20,7 +20,7 @@ data = [
         category: "practicals",
         keys: ["motor", "motors", "REV", "CTRE", "Pheonix Tuner", "Tuner", "Pheonix", "Rev Client", "ID", "DI", "motor ids", "swerve", "identification", "numbering", "CANCoder", "CAN", "PDH"],
         summary: "Guidelines for IDing using REV Client and Pheonix Tuner, including guidelines on what IDs to use for swerve, the CAN Chain, etc.",
-        link: "/NARASK/practicals/practicals.html#swerver",
+        link: "/NARASK/practicals/practicals.html#flashing-an-orange-pi",
         value: 0
     },
     {
