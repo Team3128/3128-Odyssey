@@ -69,6 +69,17 @@ controller.getButton(kA).onTrue(
 
 
 ## Radios
-
+### Connecting to Access Point (6GHz, AP) VH-109 Radio
+1. Connect the radio through ethernet to your computer
+2. Navigate to Wifi Settings
+3. Select FRC-AP 3128
+4. Select IP-assignment
+5. Change from Automatic (DHCP) to Manual
+6. Select IPv4
+7. In IP address, type "10.31.28.{##}"
+- ## can be any 2 or 3 digit number
+8. In Subnet mask, type "255.255.255.0"
+- this means to allow any network following exactly 10.31.28.#, and ignores everything else
+9. Select Save
 
 ## NARDash
