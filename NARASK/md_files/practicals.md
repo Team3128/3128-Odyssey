@@ -59,10 +59,14 @@ controller.getButton(kA).onTrue(
 - INCOMPLETE
 
 ### Flashing Cameras:
-1. Connect your camera directly to your computer via a JST to USB wire
-2. Using either the calibration board or the [calibration pattern](https://www.calibdb.net/board.png) on a separate screen
-3. Open up [calibDB](https://www.calibdb.net) and press the “Calibrate” button. Hold up your ChArUco board to the camera and line it up with the displayed pattern.
-4. When you’re done, make sure to select the correct resolution and download the JSON file. Next, connect to Photon Vision and navigate to the “Camera” tab. Select “Import from CalibDB” and upload the JSON. 
+1. With your computer and camera, directly connect to the camera's wifi using a radio.
+2. Open photonvision in a new window using photonvision.local:5800. The dashboard should show the camera feed directly on your computer.
+3. In dashboard, make sure the type is set to "AprilTag."
+4. Rename the camera under the cameras tab. To access this camera in the future, use cameraname.local:5800 where cameraname is the new name.
+5. Under the settings tab, change the team number to 3128.
+6. For calibration, open the cameras tab and print out the calibration board (an 8x8 charuco board) by pressing generate board (skip if you already have a calibration board)
+7. Under the cameras tab, scroll down and press "start calibration" and begin your calibration by holding up the charuco board to the camera and lining it up with the dots on the screen. Repeat this 12 or more times. Make sure your resolution is set to 1280x720. 
+8. When finished, press "finish calibration" and verify that the cameras can recognize april tags by holding one up to a camera. If the calibration is successful, there should be lines indicating the orientation and location of the april tag.
 
 
 ## Limelight
