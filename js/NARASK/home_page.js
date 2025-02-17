@@ -1,37 +1,16 @@
-data = [
-    {
-        content: "Github Best Practices", 
-        category: "github",
-        keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], 
-        value: 0, 
-        link: "/robot_github/robot_github.html"
-    },
-    {
-        content: "Future Improvements", 
-        category: "other",
-        keys: ["minibot", "NARDash", "NARASK", "NARPit", "LED"], 
-        value: 0
-    },
-    {content: "Practicals", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
-    {content: "Robot-Github", keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], value: 0},
-    {content: "test", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
-    {content: "test1", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
-    {content: "test2", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
-    {content: "test3", keys: ["orange pi", "micro sd", "balena etcher", "camera", "calibDB", "ChArUco", "Photon Vision"], value: 0},
-];
-
 var tags = [];
 
 function runSearch() {
     reset();
 
     const query = document.getElementById('searchbox').value.toLowerCase();
-    checkKeys(query);
-    displayResults(sort());
+    const filtered_data = get_filtered_data();
+    checkKeys(query, filtered_data);
+    displayResults(sort(filtered_data));
 }
 
-function checkKeys(query) {
-    data.forEach(obj => {
+function checkKeys(query, filtered_data) {
+    filtered_data.forEach(obj => {
         obj.keys.forEach(key => {
             if (query.toLowerCase().includes(key.toLowerCase())) {
                 obj.value++;
@@ -40,9 +19,9 @@ function checkKeys(query) {
     });
 }
 
-function sort() {
+function sort(filtered_data) {
     // return data.filter(obj => obj.value > 0).sort((a, b) => b.value - a.value);
-    return data.sort((a, b) => b.value - a.value);
+    return filtered_data.sort((a, b) => b.value - a.value);
 }
 
 function reset() {
@@ -65,33 +44,67 @@ function displayResults(results) {
     });
 }
 
-window.onload=function() {
-    document.getElementById("searchbox")
-    .addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-        document.getElementById("submit_button").click();
-    }
-});
+function get_filtered_data() {
+    if (tags[0] == null) return data; 
+    return data.filter(checkTags); 
 }
 
-function get_filtered_data(tags) {
-    if (tags = null) return data; 
-
-    const filtered_data = [];
-    data.forEach((obj)=> {
-        includesTag = false;
-        tags.forEach((tag)=> {
-            if (obj.key.toLowerCase() == tag.value.toLowerCase()) {
-                includesTag = true;
-            }
-        })          
-        if (includesTag) filtered_data.add(obj);
+function checkTags(obj) {
+    includesTag = false;
+    tags.forEach((tag)=> {
+        if (tag.toLowerCase() == obj.category.toLowerCase()) {
+            includesTag = true;
+        }
     })
-    return filtered_data; 
+    return includesTag;
 }
 
 function addTag(tag) {
     tags.add(tag);
     runSearch();
+}
+
+window.onload=function() {
+    document.getElementById("searchbox").addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            document.getElementById("submit_button").click();
+        }
+    });
+    document.getElementById("common").addEventListener("change", function(event) {
+        if (event.target.checked) {
+            tags.push("common");
+        }
+        else {
+            tags = tags.filter(tag => tag != "common");
+        }
+        runSearch();
+    });
+    document.getElementById("practicals").addEventListener("change", function(event) {
+        if (event.target.checked) {
+            tags.push("practicals");
+        }
+        else {
+            tags = tags.filter(tag => tag != "practicals");
+        }
+        runSearch();
+    });
+    document.getElementById("github").addEventListener("change", function(event) {
+        if (event.target.checked) {
+            tags.push("github");
+        }
+        else {
+            tags = tags.filter(tag => tag != "github");
+        }
+        runSearch();
+    });
+    document.getElementById("other").addEventListener("change", function(event) {
+        if (event.target.checked) {
+            tags.push("other");
+        }
+        else {
+            tags = tags.filter(tag => tag != "other");
+        }
+        runSearch();
+    });
 }
