@@ -34,13 +34,18 @@ function displayResults(results) {
     const resultsElement = document.getElementById('results');
     resultsElement.innerHTML = '';
     results.forEach(result => {
+        var div = document.createElement('div');
         var a = document.createElement('a');
         var linkText = document.createTextNode(result.content);
         a.appendChild(linkText);
         a.title = result.content;
         a.href = result.link;
-        a.classList.add('search_item');
-        resultsElement.appendChild(a);
+        div.classList.add('search_item');
+        div.appendChild(a);
+        var p = document.createElement('p');
+        p.innerHTML = result.summary; 
+        div.appendChild(p);
+        resultsElement.appendChild(div);
     });
 }
 

@@ -36,6 +36,14 @@ html, body {
     display: block;
 }
 
+.search_item a {
+    text-decoration: none;
+}
+
+.search_item p {
+    margin-bottom: 0;
+}
+
 #results {
     align-items: center;
     justify-content: center;
