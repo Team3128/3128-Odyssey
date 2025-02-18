@@ -2,7 +2,6 @@ var tags = [];
 
 function runSearch() {
     reset();
-
     const query = document.getElementById('searchbox').value.toLowerCase();
     const filtered_data = get_filtered_data();
     checkKeys(query, filtered_data);
@@ -45,7 +44,7 @@ function displayResults(results) {
         var p = document.createElement('p');
         p.innerHTML = result.summary; 
         div.appendChild(p);
-        resultsElement.appendChild(div);
+        resultsElement.appendChild(div); 
     });
 }
 

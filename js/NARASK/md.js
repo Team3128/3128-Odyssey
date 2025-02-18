@@ -62,7 +62,15 @@ function markdownToHtml(markdown) {
         // Images
         .replace(/!\[([^\]]+)]\(([^)]+)\)/g, '<img class="md-image" src="$2" alt="$1">')
         // Line breaks
-        .replace(/\n/g, '<br>');
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*\*(.*?)\*\*\*/g, '<b><i>$1</i></b>')
+        .replace(/___(.*?)___/g, '<b><i>$1</i></b>')
+        // Bold (** or __)
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+        .replace(/__(.*?)__/g, '<b>$1</b>')
+        // Italics (* or _)
+        .replace(/\*(.*?)\*/g, '<i>$1</i>')
+        .replace(/_(.*?)_/g, '<i>$1</i>');
 
     function createHeading(text, level) {
         let anchor = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
