@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css\index.css">
     <link rel="stylesheet" href="css\nav.css">
     <script src="js/nav.js" defer></script>
+    <script src="js\odyssey.js" defer></script>
 </head>
 <body>
     <div class = parent>
@@ -20,25 +21,32 @@
         <div class="bubble-overlay" id="bubble"></div>
     
         <div class="nav-menu" id="nav-menu">
-            <a href="#">home</a>
-            <a href="#">narask</a>
-            <a href="#">narpit</a>
-            <a href="#">nartech</a>
-            <a href="#">neptune</a>
+            <img id="nav-logo" src="img/logo.png">
+
+            <a href="./NARASK/home_page/home_page.html" target="_blank" rel="noopener noreferrer">narask</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">narpit</a>
+            <!-- change to pdf once binder is finished, or if audrey is done the link-->
+            <a href="# target="_blank" rel="noopener noreferrer">nartech</a>
+            <a href="https://manta-scouting-neptune.vercel.app" target="_blank" rel="noopener noreferrer">narstrat</a>
         </div>
 
 
 
 
         <div id="cover">
+            <span id="black_fade_down"></span>
             <div id="home_header">
+                <div id="title_holder">
                 <h1 id="title">ODYSSEY</h1>
                 <div id="team_num">
                     <p>31</p>
                     <p>28</p>
                 </div>
+                </div>
+                <h4>nobody - that's my name</h4>
             </div>
             <div id="scroll">
+                <span id="scroll_gradient"></span>
                 <div id="scroll_text">
                     <p>dive deeper</p>
                 </div>
@@ -47,22 +55,23 @@
         </div>
     
         <div id = "project_menu">
-            <div class = "project_item" id = "narask">
+            <span id="black_fade_top"></span>
+            <a class = "project_item" id = "narask" href="./NARASK/home_page/home_page.html" target="_blank" rel="noopener noreferrer">
                 <p class = "num" id = "three">3</p>
                 <h4>ask</h4>
-            </div>
-            <div class = "project_item" id = "narpit">
+            </a>
+            <a class = "project_item" id = "narpit" href="#" target="_blank" rel="noopener noreferrer">
                 <p class = "num" id = "one">1</p>
                 <h4>pit</h4>
-            </div>
-            <div class = "project_item" id = "nartech">
+            </a>
+            <a class = "project_item" id = "nartech" href="# target="_blank" rel="noopener noreferrer">
                 <p class = "num" id = "two">2</p>
                 <h4>tech</h4>
-            </div>
-            <div class = "project_item" id = "neptune">
+            </a>  
+            <a class = "project_item" id = "narstrat" href="https://manta-scouting-neptune.vercel.app" target="_blank" rel="noopener noreferrer">
                 <p class = "num" id = "eight">8</p>
                 <h4>strat</h4>
-            </div>
+            </a>
         </div>
     </div>
 </body>
