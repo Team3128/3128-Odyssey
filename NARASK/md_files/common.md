@@ -272,4 +272,101 @@ chmod +x submod_setup.sh
 ./submod_setup.sh submodule
 
 ```
+____________________________________________________________________________________________________________________
+# Core
 
+## Controller
+
+
+
+## FSMSubsystemBase.java
+
+### Preamble
+This documentation explains how the FSMSubsystemBase code works. To access this section of the code, access the fsm folder under the common repository.
+
+Authors: Timothy Dimmock (Timmy), Avani Goyal, Rishi Kumar
+### Overview
+The FSM, or finite-state machine, is defined by a list of states. When we create subsystems, we use the base code to define all of our constants. We then extend our subsystems from this base. All of the FSM subsystems come with a transition map, and most with a defaultTransitioner Function. The FSMSubsystemBase is an abstract Java class designed for managing the states of a subsystem. 
+#### Logging and Debugging
+- Log.debug() is used for detailed logging
+- log.recoverable() handles warnings (e.g., null states)
+- log.unusual() records invalid transitions
+### States and Transitions
+- currentState: current states of the FSM
+- previousState: last state before transitioning
+- currentTransition: the active transition (if any)
+- requestTransition: requested transition
+- transitionMap: stores valid transitions
+### Constructor
+- Initializes enum class and transitionMap
+- begins tracking state data (initStateTracker() integrates with shuffleboard to displace useful FSM data).
+- registers transitions
+### Managing States and Transitions
+- setState(S nextState) handles state transitions. It gets the transition between the current state and the requested state.
+- setStateCommand(S nextState)  returns a command that sets the states when it's executed.
+- stateEquals(S otherState) returns true if the current state matches other state and there is no transition occuring.
+- isTransitioning() returns true if a transition is in progress.
+- addTransition() adds a new transition between two states to the transition map.
+- registerTransitions() is an abstract method that must be implemented in subclasses to define valid state transitions.
+### Managing Subsystems
+- addSubsystem() adds subsystems to the FSM for coordinated control.
+- reset() stops the FSM and resets all associated subsystems.
+- getSubsystems() and getSubsystem(String name) retrieve all added subsystems or a specific one by name.
+- setNeutralMode() sets the neutral mode of the motors for all associated subsystems.
+### Running Commands
+- run(double power) runs all subsystems at a specified power level and logs the action.
+- runVolts(double volts) runs all subsystems at a specified voltage and logs the action.
+- stop() cancels any active transition and stops all subsystems.
+____________________________________________________________________________________________________________________
+
+## Transition.java
+
+### Preamble
+This documentation explains how the FSM transition file works.
+
+Authors: Timothy Dimmock (Timmy), Avani Goyal
+### Overview
+The Transition class facilitates state transitions in an FSM by defining outgoing and incoming states along with an optional command. It provides methods to check, execute, cancel and compare transitions.
+- outgoingState: state the robot is transitioning from
+- incomingSate: the state the subsystems are transitioning from.
+- command: a command that executes when the transition occurs.
+### Constructor Variants
+There's three ways to construct a transition, all of which record the incoming and outgoing states. 
+- Transition ( T outgoingState, T incomingState, Command command) creates a transition with a specific command executed during the transition.
+- Transition ( T outgoingState, T incomingState, Runnable action) creates a transition with a runnable (skips the step of creating a command) which is then converted into a command
+- Transition ( T outgoingState, T incomingState) creates a transition without any associated command.
+### Get Methods
+Methods that retrieve information about the transition, like the outgoing and incoming states, and the associated commands.
+### Transition Validation
+- isTransition(T currentState, T nextState) checks if the transition that is trying to be run is the given transition.
+- equals(Transition<T> other) checks if two transitions are identical
+### Utility Methods
+- toString() returns a string representation of the transition
+- cancel() cancels the transition command.
+- execute() schedules the command for execution.
+- isScheduled() checks if the command is currently scheduled.
+- isFinished() checks if the command has finished executing.
+____________________________________________________________________________________________________________________
+
+## TransitionMap
+### Overview
+TransitionMap is a class designed to define transitions from one state to another. 
+It provides an easy way to create methods that are excecuted when a transition occurs.
+## 
+
+## Subsystem Templates
+
+## Swerve
+
+# Hardware:
+
+## Cameras
+## Input
+## Limelight
+## Motor Controllers
+
+# Utility:
+
+## Narwhal Dashboard
+## Shuffleboard
+## SysID
