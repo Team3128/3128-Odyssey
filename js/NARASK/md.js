@@ -29,8 +29,9 @@ async function loadMarkdown(file) {
 function markdownToHtml(markdown) {
     let counter = 0;
     let anchorMap = {}; // Store heading text → unique anchor links
+    let toc = [];
 
-    return markdown
+    let converted_markdown = markdown
         // Headings with unique anchors
         .replace(/^###### (.*$)/gim, (_, text) => createHeading(text, 6))
         .replace(/^##### (.*$)/gim, (_, text) => createHeading(text, 5))
@@ -78,6 +79,12 @@ function markdownToHtml(markdown) {
             anchor += `-${++counter}`; // Avoid duplicate IDs
         }
         anchorMap[anchor] = true;
+        toc.push(`<li class="toc-item toc-level-${level}"><a href="#${anchor}">${text}</a></li>`);
         return `<h${level} id="${anchor}" class="md-heading">${text}</h${level}>`;
     }
+
+    let tocHtml = `<h2>Table of Contents</h2><ul>${toc.join("")}</ul>`;
+    tocDiv.innerHTML = tocHtml; // Insert TOC into the page
+
+    return converted_markdown;
 }
