@@ -4,7 +4,7 @@ data = [
         category: "common",
         keys: ["test", "test"],
         summary: "test",
-        link: "test",
+        link: "/NARASK/common.html",
         value: 0
     },
     {
@@ -12,7 +12,7 @@ data = [
         category: "practicals",
         keys: ["test"],
         summary: "test",
-        link: "/NARASK/practicals/practicals.html",
+        link: "/NARASK/practicals.html",
         value: 0
     },
     {
@@ -20,7 +20,7 @@ data = [
         category: "practicals",
         keys: ["motor", "motors", "REV", "CTRE", "Pheonix Tuner", "Tuner", "Pheonix", "Rev Client", "ID", "DI", "motor ids", "swerve", "identification", "numbering", "CANCoder", "CAN", "PDH"],
         summary: "Guidelines for IDing using REV Client and Pheonix Tuner, including guidelines on what IDs to use for swerve, the CAN Chain, etc.",
-        link: "/NARASK/practicals/practicals.html#flashing-an-orange-pi",
+        link: "/NARASK/practicals.html#flashing-an-orange-pi",
         value: 0
     },
     {
@@ -31,14 +31,14 @@ data = [
         link: "test",
         value: 0
     },
-    // {
-    //     content: "Github Best Practices", 
-    //     category: "github",
-    //     keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], 
-    //     value: 0, 
-    //     link: "/robot_github/robot_github.html",
-    //     summary: "tester"
-    // },
+    {
+        content: "Github Best Practices", 
+        category: "github",
+        keys: ["github", "code", "forks", "branches", "milestone", "request manager", "repository", "submodule", "directory", "push", "project", "pull"], 
+        value: 0, 
+        link: "/NARASK/github.html",
+        summary: "tester"
+    },
     // {
     //     content: "Future Improvements", 
     //     category: "other",
