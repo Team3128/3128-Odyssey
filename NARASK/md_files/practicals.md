@@ -1,6 +1,7 @@
 # Practicals
 
-## Preamble
+## Introduction
+
 Code itself is not the only knowledge required to succeed in the Controls department. 
 This documentation functions as a place to add any miscillaneous information, both on the software and wiring side, that will help members.
 
@@ -46,17 +47,15 @@ controller.getButton(kA).onTrue(
 ```
 3. $MoI=mass\times\frac{trackwidth}{2}\times\frac{kA_{angular}}{kA_{linear}}$
 
-## Orange Pi Configuration and Testing 
+## Vision Practicals
+
 ### Flashing an Orange Pi
-<p>When you first start using an Orange Pi, the micro SD card needs to be flashed with the Orange Pi image:</p>
+When you first start using an Orange Pi, the micro SD card needs to be flashed with the Orange Pi image:
 
 1. Connect the SD card to your computer using a dongle.
 2. Download and open [Balena Etcher](https://etcher.balena.io/)
 3. Go to [Orange Pi releases page](https://github.com/PhotonVision/photonvision/releases) and download the latest version of the Orange Pi 5 (orangepi5.img.xz)
 4. Use Balena Etcher to flash the Orange Pi file onto the SD card. Put the SD Card into the Orange Pi
-
-### Wiring an Orange Pi on Test Bench:
-- INCOMPLETE
 
 ### Flashing Cameras:
 1. With your computer and camera, directly connect to the camera's wifi using a radio.
@@ -68,17 +67,24 @@ controller.getButton(kA).onTrue(
 7. Under the cameras tab, scroll down and press "start calibration" and begin your calibration by holding up the charuco board to the camera and lining it up with the dots on the screen. Repeat this 12 or more times. Make sure your resolution is set to 1280x720. 
 8. When finished, press "finish calibration" and verify that the cameras can recognize april tags by holding one up to a camera. If the calibration is successful, there should be lines indicating the orientation and location of the april tag.
 
+## Radio Practicals
 
-## Limelight
+### Radio Firmware Update
+1. On the Vivid-Hosting [firmware releases page](https://frc-radio.vivid-hosting.net/miscellaneous/firmware-releases) download the proper firmware for the current firmware version you have. Always choose the Radio Variant.
+2. Copy the SHA-256 key below the firmware you downloaded.
+3. Paste that key into the Checksum box of the Firmware Upload section at the bottom of the configuration page we navigated to above.
+4. Click Browse… and select the firmware file you downloaded.
+5. Click the Upload button.
 
+### Robot Radio Configuration
+This section is used for configuring the VH-109 radio outside of competition. At competition, configuration will be done by a provided computer and manual configuration using this page should not be used.
 
-## Radios
-
+1. Select Robot Radio Mode
+2. Enter the team number
+3. Enter the suffix, if desired. This will help identify your robot and distinguish it from other networks.
+4. Enter the 6 GHz WPA/SAE key. This key will need to match the key on the Access Point you configure.
+5. Enter the 2.4 GHz WPA/SAE key. This is the password team members will type in when connecting to the 2.4 GHz network, if available.
 
 ## NARDash
-
-## Swerve Practicals
-
-## Camera Practicals
 
 ## Submodule Practicals

@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-    const contentDiv = document.getElementById("content");
-
-    // Delay scrolling until DOM has fully updated
     setTimeout(() => {
         if (window.location.hash) {
             const targetId = window.location.hash.substring(1);
@@ -11,9 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 targetElement.scrollIntoView({ behavior: "smooth" });
             }
         }
-    }, 100); // Small delay to ensure content is loaded
+    }, 100);
 });
-
 
 async function loadMarkdown(file) {
     try {
@@ -28,64 +23,105 @@ async function loadMarkdown(file) {
 
 function markdownToHtml(markdown) {
     let counter = 0;
-    let anchorMap = {}; // Store heading text → unique anchor links
+    let anchorMap = {};
     let toc = [];
-
-    let converted_markdown = markdown
-        // Headings with unique anchors
-        .replace(/^###### (.*$)/gim, (_, text) => createHeading(text, 6))
-        .replace(/^##### (.*$)/gim, (_, text) => createHeading(text, 5))
-        .replace(/^#### (.*$)/gim, (_, text) => createHeading(text, 4))
-        .replace(/^### (.*$)/gim, (_, text) => createHeading(text, 3))
-        .replace(/^## (.*$)/gim, (_, text) => createHeading(text, 2))
-        .replace(/^# (.*$)/gim, (_, text) => createHeading(text, 1))
-        // Links (supporting internal anchors like `[Go to Section](#heading-title)`)
-        .replace(/\[([^\]]+)]\(#([^\)]+)\)/g, (_, text, anchor) => {
-            return `<a class="md-link" href="#${anchor}">${text}</a>`;
-        })
-        // Normal external links
-        .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<a class="md-link" href="$2" target="_blank">$1</a>')
-        // Unordered lists (- or *)
-        .replace(/^\s*[-*] (.*)$/gim, '<ul><li>$1</li></ul>')
-        .replace(/<\/ul>\s*<ul>/gim, '') // Merge adjacent lists
-        // Ordered lists (1., 2., etc.)
-        .replace(/^\s*\d+\.\s(.*)$/gim, '<ol><li>$1</li></ol>')
-        .replace(/<\/ol>\s*<ol>/gim, '') // Merge adjacent lists
-        // Code blocks
-        .replace(/```([\s\S]*?)```/g, '<pre class="code-block"><code>$1</code></pre>')
-        // Inline code
-        .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
-        // Bold & Italics
-        .replace(/\*\*(.*?)\*\*/g, '<b class="bold-text">$1</b>')
-        .replace(/\*(.*?)\*/g, '<i class="italic-text">$1</i>')
-        // Blockquotes
-        .replace(/^> (.*$)/gim, '<blockquote class="quote">$1</blockquote>')
-        // Images
-        .replace(/!\[([^\]]+)]\(([^)]+)\)/g, '<img class="md-image" src="$2" alt="$1">')
-        // Line breaks
-        .replace(/\n/g, '<br>')
-        .replace(/\*\*\*(.*?)\*\*\*/g, '<b><i>$1</i></b>')
-        .replace(/___(.*?)___/g, '<b><i>$1</i></b>')
-        // Bold (** or __)
-        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-        .replace(/__(.*?)__/g, '<b>$1</b>')
-        // Italics (* or _)
-        .replace(/\*(.*?)\*/g, '<i>$1</i>')
-        .replace(/_(.*?)_/g, '<i>$1</i>');
-
-    function createHeading(text, level) {
-        let anchor = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-        if (anchorMap[anchor]) {
-            anchor += `-${++counter}`; // Avoid duplicate IDs
-        }
-        anchorMap[anchor] = true;
-        toc.push(`<li class="toc-item"><div class="toc-item-div  toc-level-${level}"><a href="#${anchor}">${text}</a></div></li>`);
-        return `<h${level} id="${anchor}" class="md-heading">${text}</h${level}>`;
-    }
-
-    let tocHtml = `<h2>${document.title}</h2><ul>${toc.join("")}</ul>`;
+    let convertedMarkdown = "";
     
-    tocDiv.innerHTML = tocHtml; // Insert TOC into the page
+    let lines = markdown.split("\n");
+    let inList = false;
+    let inBlockquote = false;
+    let inCodeBlock = false;
+    let codeBuffer = [];
 
-    return converted_markdown;
+    lines.forEach(line => {
+        let headingMatch = line.match(/^(#{1,6})\s+(.*)/);
+        let listMatch = line.match(/^(\*|-|\d+\.)\s+(.*)/);
+        let blockquoteMatch = line.match(/^>\s+(.*)/);
+        let codeBlockMatch = line.match(/^```/);
+
+        if (codeBlockMatch) {
+            if (inCodeBlock) {
+                convertedMarkdown += `<pre><code>${codeBuffer.join("\n")}</code></pre>`;
+                codeBuffer = [];
+            }
+            inCodeBlock = !inCodeBlock;
+        } else if (inCodeBlock) {
+            codeBuffer.push(line);
+        } else if (headingMatch) {
+            let level = headingMatch[1].length;
+            let text = headingMatch[2];
+            let anchor = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+
+            if (anchorMap[anchor]) {
+                anchor += `-${++counter}`;
+            }
+            anchorMap[anchor] = true;
+
+            toc.push({ level, text, anchor });
+
+            if (inList) {
+                convertedMarkdown += "</ul>";
+                inList = false;
+            }
+            if (inBlockquote) {
+                convertedMarkdown += "</blockquote>";
+                inBlockquote = false;
+            }
+
+            convertedMarkdown += `<h${level} id="${anchor}">${text}</h${level}>`;
+        } else if (listMatch) {
+            let isOrdered = listMatch[1].match(/^\d+\./);
+            let listTag = isOrdered ? "ol" : "ul";
+
+            if (!inList) {
+                convertedMarkdown += `<${listTag}>`;
+                inList = listTag;
+            } else if (inList !== listTag) {
+                convertedMarkdown += `</${inList}><${listTag}>`;
+                inList = listTag;
+            }
+
+            convertedMarkdown += `<li>${convertInlineMarkdown(listMatch[2])}</li>`;
+        } else if (blockquoteMatch) {
+            if (!inBlockquote) {
+                convertedMarkdown += "<blockquote>";
+                inBlockquote = true;
+            }
+            convertedMarkdown += convertInlineMarkdown(blockquoteMatch[1]) + "<br>";
+        } else if (line.trim() === "") {
+            if (inList) {
+                convertedMarkdown += `</${inList}>`;
+                inList = false;
+            }
+            if (inBlockquote) {
+                convertedMarkdown += "</blockquote>";
+                inBlockquote = false;
+            }
+            convertedMarkdown += "<br>";
+        } else {
+            convertedMarkdown += convertInlineMarkdown(line) + "<br>";
+        }
+    });
+
+    if (inList) convertedMarkdown += `</${inList}>`;
+    if (inBlockquote) convertedMarkdown += "</blockquote>";
+
+    let tocHtml = `<h2>${document.title}</h2><ol>`;
+    toc.forEach(item => {
+        tocHtml += `<li class="toc-level-${item.level}"><a href="#${item.anchor}">${item.text}</a></li>`;
+    });
+    tocHtml += "</ol>";
+
+    document.getElementById("tocDiv").innerHTML = tocHtml;
+    return convertedMarkdown;
+}
+
+function convertInlineMarkdown(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')  // Bold
+        .replace(/\*(.*?)\*/g, '<i>$1</i>')      // Italic
+        .replace(/`([^`]+)`/g, '<code>$1</code>') // Inline code
+        .replace(/!\[([^\]]+)]\(([^)]+)\)/g, '<img src="$2" alt="$1">') // Images
+        .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<a href="$2">$1</a>'); // Links
+        
 }
