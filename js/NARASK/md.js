@@ -119,9 +119,9 @@ function markdownToHtml(markdown) {
 function convertInlineMarkdown(text) {
     return text
         .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')  // Bold
+        .replace(/__(.*?)__/g, '<b>$1</b>')
         .replace(/\*(.*?)\*/g, '<i>$1</i>')      // Italic
         .replace(/`([^`]+)`/g, '<code>$1</code>') // Inline code
         .replace(/!\[([^\]]+)]\(([^)]+)\)/g, '<img src="$2" alt="$1">') // Images
         .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<a href="$2">$1</a>'); // Links
-        
 }
