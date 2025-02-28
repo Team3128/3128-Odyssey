@@ -5,7 +5,7 @@ html, body {
     background-attachment: fixed;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto Flex'; 
+    font-family: 'Roboto Flex', sans-serif; 
     min-height: 100%;
 }
 
