@@ -79,11 +79,12 @@ function markdownToHtml(markdown) {
             anchor += `-${++counter}`; // Avoid duplicate IDs
         }
         anchorMap[anchor] = true;
-        toc.push(`<li class="toc-item toc-level-${level}"><a href="#${anchor}">${text}</a></li>`);
+        toc.push(`<li class="toc-item"><div class="toc-item-div  toc-level-${level}"><a href="#${anchor}">${text}</a></div></li>`);
         return `<h${level} id="${anchor}" class="md-heading">${text}</h${level}>`;
     }
 
-    let tocHtml = `<h2>Table of Contents</h2><ul>${toc.join("")}</ul>`;
+    let tocHtml = `<h2>${document.title}</h2><ul>${toc.join("")}</ul>`;
+    
     tocDiv.innerHTML = tocHtml; // Insert TOC into the page
 
     return converted_markdown;
