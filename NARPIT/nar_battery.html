@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Usage Log</title>
+    <link rel="stylesheet" href="/css/narpit.css">
+    <script src="/js/NARPIT/batteries.js"></script>
+    <script src="/js/NARPIT/nar_battery.js"></script>
+</head>
+<body>
+    <button onclick="inputBatteries()">generate rotation</button>
+    <input type="text" id="rotation">
+    <button onclick="inputBatteries()">test</button>
+
+    <button onclick="saveData()">Log Battery</button>
+    <button onclick="exportData()">Export Data</button>
+    <button onclick="clearAllData()" class="danger">Clear All Data</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Battery #</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="dataTable">
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+</body>
+</html>
