@@ -6,12 +6,25 @@
     <script src="tyler_subsystem_maker.js"></script>
 </head>
 <body>
+    <h1>Subsystem Maker</h1>
+    <label for="name">Name of Subsystem: </label>
+    <input type="text" id="name">
+    <br>
     <label for="type">Type of Subsystem: </label>
-    <select>
+    <select id="type">
         <option value="Voltage">Voltage</option>
         <option value="Velocity">Velocity</option>
         <option value="Position">Position</option>
     </select>
-    
+    <br>
+    <label for="motor">Type of Motor Controller: </label>
+    <select id="motor">
+        <option value="Talon">Talon</option>
+        <option value="Spark Flex">Spark Flex</option>
+        <option value="Talon">Spark Max</option>
+    </select>
+    <br>
+    <p>Copy and Paste This</p>
+    <input type="text" id="copy"> <!-- Tyler change the value property of this with the copy/paste -->
 </body>
 </html>
