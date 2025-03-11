@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="tyler_subsystem_maker.js"></script>
+    <link rel="stylesheet" href="../css/subsystem_maker.css">
 </head>
 <body>
     <h1>Subsystem Maker</h1>
     <label for="name">Name of Subsystem: </label>
-    <input type="text" id="name">
-    <br>
+    <input type="text" id="subName">
     <label for="type">Type of Subsystem: </label>
     <select id="type">
         <option value="Voltage">Voltage</option>
         <option value="Velocity">Velocity</option>
         <option value="Position">Position</option>
     </select>
-    <br>
-    <label for="motor">Type of Motor Controller: </label>
-    <select id="motor">
-        <option value="Talon">Talon</option>
-        <option value="Spark Flex">Spark Flex</option>
-        <option value="Talon">Spark Max</option>
-    </select>
-    <br>
-    <p>Copy and Paste This</p>
-    <input type="text" id="copy"> <!-- Tyler change the value property of this with the copy/paste -->
+    <label for="num">Number of Motors: </label>
+    <input type="text" id="num">
+    <div id="motorArray">
+        <label for="motor1">Motor 1: </label>
+        <select id="motor1">
+            <option value="CAN">Talon</option>
+            <option value="PWM">Spark Flex</option>
+        </select>
+    </div>
+    <button id="submit">Submit</button>
+    <p>Copy and Paste This: </p>
+    <p id="output"></p> <!-- Tyler change the innerHTML property of this with the copy/paste -->
 </body>
+<script src="tyler_subsystem_maker.js"></script>
 </html>
