@@ -13,20 +13,10 @@
     <h1>Subsystem Maker</h1>
     <label for="name">Name of Subsystem: </label>
     <input type="text" id="subName">
-    <label for="type">Type of Subsystem: </label>
-    <select id="type">
-        <option value="Voltage">Voltage</option>
-        <option value="Velocity">Velocity</option>
-        <option value="Position">Position</option>
-    </select>
-    <label for="num">Number of Motors: </label>
+    <label for="num">Number of Motors (1 is the minimum): </label>
     <input type="number" id="num">
     <div id="motorArray">
-        <label for="motor1">Motor 1: </label>
-        <select id="motor1">
-            <option value="CAN">Talon</option>
-            <option value="PWM">Spark Flex</option>
-        </select>
+        
     </div>
     <button id="submit">Submit</button>
     <div id="outputdiv">

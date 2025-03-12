@@ -5,6 +5,8 @@ var motors = [];
 var output = document.getElementById("output");
 var refreshButton = document.getElementById("sumbitNum");
 
+var lastAmountOfMotors = 0;
+
 var variables = `
 package frc.robot;
 
@@ -62,39 +64,46 @@ function createSubsystem() {
 }
 
 function changeMotorInputs() {
-    if (motors.length > numberOfMotors.value) {
-        //decreasing number of slots
-        for (i = 0; i < numberOfMotors.value - motors.length; i++) {
-            
-        }
-        motors[numberOfMotors.value].remove();
-        motors = motors.slice(0, numberOfMotors.value - 1);
-    } else if (motors.length < numberOfMotors.value) {
-        //increasing number of slots
+    if (numberOfMotors.value > 0) {
+        if (lastAmountOfMotors > numberOfMotors.value) {
+            //console.log(motors)
+    
+            //for (i = 0; i < lastAmountOfMotors - numberOfMotors.value; i++) {
+            //    console.log(motors, Number(numberOfMotors.value) + i);
+            //    motors[Number(numberOfMotors.value) + i].remove();
+            //}
 
-        for (i = 0; i < numberOfMotors.value - motors.length; i++) {
-            var numOfArray = i + numberOfMotors.value;
+            for (i = 0; i < lastAmountOfMotors - numberOfMotors.value; i++) {
+                motors[Number(numberOfMotors.value) + i].remove();
+                motors = motors.slice(0, numberOfMotors.value + i);
+            }
 
-            var div = document.createElement("div");
-
-            div.innerHTML =
-            '<div id="motorArray">\n'+
-            '<label for="motor1">Motor 1: </label>\n'+
-            '<select id="motor1">\n'+
-                '<option value="CAN">Talon</option><option value="PWM">Spark Flex</option>\n' +
-            '</select>\n'+
-            '</div>\n'+
-
-            document.body.appendChild(div);
-
-            motors[numOfArray - 1] = div;
+            //motors = motors.slice(0, numberOfMotors.value);
+            lastAmountOfMotors = numberOfMotors.value;
+        } else if (lastAmountOfMotors < numberOfMotors.value) {
+            for (i = 0; i < numberOfMotors.value - lastAmountOfMotors; i++) {           
+                var div = document.createElement("div");
+    
+                div.innerHTML =`
+                <label for="motor1">Motor 1: </label>
+                <select id="motor1">
+                    <option value="CAN">Talon</option>
+                    <option value="PWM">Spark Flex</option>
+                </select>
+                `;
+    
+                document.getElementById("motorArray").appendChild(div);
+                console.log(lastAmountOfMotors, numberOfMotors.value)
+                motors[Number(lastAmountOfMotors) + i] = div;
+                console.log(motors);
+            }
+            lastAmountOfMotors = numberOfMotors.value;
         }
     }
-
-    console.log(motors.length);
+    
 }
 
-setInterval(changeMotorInputs, 2000);
+setInterval(changeMotorInputs, 100);
 setInterval(createSubsystem, 100);
 
 //types we could have: can, pwm
