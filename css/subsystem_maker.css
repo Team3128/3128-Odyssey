@@ -1,5 +1,5 @@
 body {
-    font-family: 'Raleway';
+    font-family: Arial, sans-serif;
     text-align: center;
     margin: 20px;
     background-color: #f5f5f5;
@@ -91,6 +91,4 @@ button.danger {
     color: white;
     padding: 20px;
     border-radius: 9px;
-    border-style: solid;
-    border-color: green;
 }
