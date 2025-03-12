@@ -1,5 +1,18 @@
 document.addEventListener("DOMContentLoaded", loadData);
 
+/* Battery List Setup */
+
+let batteryList = JSON.parse(sessionStorage.getItem("setBatteries"));
+
+if (batteryList == null) {
+    if (sessionStorage.isComp) {
+        batteryList = batteries.filter(battery => battery.type=="comp");
+    } 
+    else {
+        batteryList = batteries.filter(battery => battery.type=="practice");
+    }
+}
+
 /* Offline Mode Code */
 
 function inputBatteries() {
