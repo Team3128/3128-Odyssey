@@ -5,7 +5,7 @@ var motors = [];
 var output = document.getElementById("output");
 var refreshButton = document.getElementById("sumbitNum");
 
-var variables =  `
+var variables = `
 package frc.robot;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -52,43 +52,50 @@ public class Subsystem extends SubsystemBase{
 
 
 
-function createSubsystem(typeBase, motors){  
-    var fullScript = `//copy and paste this:
-    `;
+function createSubsystem() {
+    var fullScript = ``;
+
     fullScript += variables;
     fullScript += help;
-
 
     output.innerText = fullScript;
 }
 
-
-createSubsystem(
-    "Velocity", //TYPE
-    [//MOTORS
-    ["motor1", "Kraken"],
-    ["motor2","Kraken"]
-    ]
-);
-
 function changeMotorInputs() {
-    if (motors.length > numberOfMotors) {
-        for (i = 0; i < motors.length - numberOfMotors; i++) {
-
-        }
-    } else if (motors.length < numberOfMotors) {
-        for (i = 0; i < numberOfMotors - motors.length; i++) {
+    if (motors.length > numberOfMotors.value) {
+        //decreasing number of slots
+        for (i = 0; i < numberOfMotors.value - motors.length; i++) {
             
+        }
+        motors[numberOfMotors.value].remove();
+        motors = motors.slice(0, numberOfMotors.value - 1);
+    } else if (motors.length < numberOfMotors.value) {
+        //increasing number of slots
+
+        for (i = 0; i < numberOfMotors.value - motors.length; i++) {
+            var numOfArray = i + numberOfMotors.value;
+
+            var div = document.createElement("div");
+
+            div.innerHTML =
+            '<div id="motorArray">\n'+
+            '<label for="motor1">Motor 1: </label>\n'+
+            '<select id="motor1">\n'+
+                '<option value="CAN">Talon</option><option value="PWM">Spark Flex</option>\n' +
+            '</select>\n'+
+            '</div>\n'+
+
+            document.body.appendChild(div);
+
+            motors[numOfArray - 1] = div;
         }
     }
 
-    var motors = [];
+    console.log(motors.length);
 }
 
-setInterval(changeMotorInputs, 100);
+setInterval(changeMotorInputs, 2000);
 setInterval(createSubsystem, 100);
 
-//types we could have: velocity, voltage, position
-//motor types: kraken, neo, 
-//motor controlelrs: talon, spark max, spark flex
+//types we could have: can, pwm
 //class name
