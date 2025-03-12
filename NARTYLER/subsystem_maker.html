@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/subsystem_maker.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
 <body>
+    <div id="topdiv">
+        <img src="../img/logo.png" id="toplogo">
+    </div>
     <h1>Subsystem Maker</h1>
     <label for="name">Name of Subsystem: </label>
     <input type="text" id="subName">
@@ -25,8 +29,10 @@
         </select>
     </div>
     <button id="submit">Submit</button>
-    <p>Copy and Paste This: </p>
-    <p id="output"></p> <!-- Tyler change the innerHTML property of this with the copy/paste -->
+    <div id="outputdiv">
+        <p>Copy and Paste This: </p>
+        <p id="output"></p>
+    </div> <!-- Tyler change the innerHTML property of this with the copy/paste -->
 </body>
 <script src="tyler_subsystem_maker.js"></script>
 </html>
