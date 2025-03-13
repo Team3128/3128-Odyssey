@@ -1,6 +1,7 @@
 //hi 🤪
 //var typeInput = document.getElementById("type");
 var numberOfMotors = document.getElementById("num");
+var subsystemName = document.getElementById("subName");
 var motors = [];
 var output = document.getElementById("output");
 var refreshButton = document.getElementById("sumbitNum");
@@ -58,7 +59,7 @@ function createSubsystem() {
     var fullScript = ``;
 
     fullScript += variables;
-    fullScript += help;
+    fullScript += "public class " + subsystemName + " extends SubsystemBase {";
 
     output.innerText = fullScript;
 }
@@ -66,12 +67,6 @@ function createSubsystem() {
 function changeMotorInputs() {
     if (numberOfMotors.value > 0) {
         if (lastAmountOfMotors > numberOfMotors.value) {
-            //console.log(motors)
-    
-            //for (i = 0; i < lastAmountOfMotors - numberOfMotors.value; i++) {
-            //    console.log(motors, Number(numberOfMotors.value) + i);
-            //    motors[Number(numberOfMotors.value) + i].remove();
-            //}
 
             for (i = 0; i < lastAmountOfMotors - numberOfMotors.value; i++) {
                 motors[Number(numberOfMotors.value) + i].remove();
