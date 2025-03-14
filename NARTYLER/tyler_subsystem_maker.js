@@ -61,16 +61,25 @@ function createSubsystem() {
 
     fullScript += variables;
 
-    if (subsystemName == null) {
+    if (subsystemName == "") {
         subsystemName = "CustomSubsystem";
     }
 
-    fullScript += "public class " + subsystemName + " extends SubsystemBase {";
-    
+    fullScript += "public class " + subsystemName + " extends SubsystemBase {\n\n";
+    fullScript += "    private static " + subsystemName + " subsystem; \n\n"
+
+    for (var i = 0; i < motors.length; i++) {
+         var motorType = document.getElementById("motor" + String(i + 1)).value;
+         if (motorType == "CAN") {
+            fullScript += "    public static Spark " + "motor" + String(i + 1) + ";\n";
+         } else {
+            fullScript += "    public static VictorSP " + "motor" + String(i + 1) + ";\n";
+         }
+    }
+
+    fullScript += "\n";
 
     output.innerText = fullScript;
-
-    console.log(subsystemName.value);
 }
 
 function changeMotorInputs() {
@@ -89,8 +98,8 @@ function changeMotorInputs() {
                 var div = document.createElement("div");
     
                 div.innerHTML =
-                `<label for="motor1">Motor ` + String(Number(lastAmountOfMotors) + i + 1) + `: </label>
-                <select id="motor1">
+                `<label for="motor` + String(i+1) +`">Motor ` + String(Number(lastAmountOfMotors) + i + 1) + `: </label>
+                <select id="motor` + String(i+1) +`">
                     <option value="CAN">CAN</option>
                     <option value="PWM">PWM</option>
                 </select>
@@ -102,11 +111,12 @@ function changeMotorInputs() {
             lastAmountOfMotors = numberOfMotors.value;
         }
     }
-    
+    console.log(motors);
+    createSubsystem();
 }
 
-setInterval(changeMotorInputs, 100);
-setInterval(createSubsystem, 100);
+setInterval(changeMotorInputs, 1500);
+
 
 //types we could have: can, pwm
 //class name
