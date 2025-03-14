@@ -73,6 +73,7 @@ button.danger {
     border-radius: 9px;
     margin-top: 0;
     padding-top: 15px;
+    display: block;
 }
 
 #toplogo {
@@ -83,6 +84,7 @@ button.danger {
     margin: 0 auto;
     width: 50%;
     padding: auto 0;
+    display: block;
 }
 
 #output {
@@ -91,4 +93,9 @@ button.danger {
     color: white;
     padding: 20px;
     border-radius: 9px;
+}
+
+#motorArray div {
+    display: inline-block;
+    padding: 10px;
 }
