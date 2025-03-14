@@ -59,9 +59,18 @@ function createSubsystem() {
     var fullScript = ``;
 
     fullScript += variables;
-    fullScript += "public class " + subsystemName + " extends SubsystemBase {";
+
+    if (subsystemName.value == null) {
+        fullScript += "public class CustomSubsystem extends SubsystemBase {";
+    } else {
+        fullScript += "public class " + subsystemName.value + " extends SubsystemBase {";
+    }
+
+    
 
     output.innerText = fullScript;
+
+    console.log(subsystemName.value);
 }
 
 function changeMotorInputs() {
@@ -79,18 +88,16 @@ function changeMotorInputs() {
             for (i = 0; i < numberOfMotors.value - lastAmountOfMotors; i++) {           
                 var div = document.createElement("div");
     
-                div.innerHTML =`
-                <label for="motor1">Motor 1: </label>
+                div.innerHTML =
+                `<label for="motor1">Motor ` + String(Number(lastAmountOfMotors) + i + 1) + `: </label>
                 <select id="motor1">
-                    <option value="CAN">Talon</option>
-                    <option value="PWM">Spark Flex</option>
+                    <option value="CAN">CAN</option>
+                    <option value="PWM">PWM</option>
                 </select>
                 `;
     
                 document.getElementById("motorArray").appendChild(div);
-                console.log(lastAmountOfMotors, numberOfMotors.value)
                 motors[Number(lastAmountOfMotors) + i] = div;
-                console.log(motors);
             }
             lastAmountOfMotors = numberOfMotors.value;
         }
