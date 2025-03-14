@@ -1,7 +1,7 @@
 //hi 🤪
 //var typeInput = document.getElementById("type");
 var numberOfMotors = document.getElementById("num");
-var subsystemName = document.getElementById("subName");
+var nameInput = document.getElementById("subName");
 var motors = [];
 var output = document.getElementById("output");
 var refreshButton = document.getElementById("sumbitNum");
@@ -57,15 +57,15 @@ public class Subsystem extends SubsystemBase{
 
 function createSubsystem() {
     var fullScript = ``;
+    var subsystemName = nameInput.value;
 
     fullScript += variables;
 
-    if (subsystemName.value == null) {
-        fullScript += "public class CustomSubsystem extends SubsystemBase {";
-    } else {
-        fullScript += "public class " + subsystemName.value + " extends SubsystemBase {";
+    if (subsystemName == null) {
+        subsystemName = CustomSubsystem;
     }
-
+    
+    fullScript += "public class " + subsystemName + " extends SubsystemBase {";
     
 
     output.innerText = fullScript;
