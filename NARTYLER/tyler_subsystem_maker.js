@@ -15,7 +15,21 @@ function motorInput() {
         numberOfMotors = 1;
     }
 
-    console.log(numberOfMotors);
+    var difference = Math.abs(numberOfMotors - motorsArray.length);
+
+    if (numberOfMotors > motorsArray.length) {
+        //make more motors
+        for (i = 0; i < difference; i++) {
+            motorsArray.push("Motor");
+        }
+    } else if (numberOfMotors < motorsArray.length){
+        //get rid of motors
+        for (i = 0; i < difference; i++) {
+            motorsArray.pop();
+        }
+    }
+
+    console.log(motorsArray);
 }
 
 setInterval(motorInput, 100);
