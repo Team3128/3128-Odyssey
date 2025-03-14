@@ -62,9 +62,9 @@ function createSubsystem() {
     fullScript += variables;
 
     if (subsystemName == null) {
-        subsystemName = CustomSubsystem;
+        subsystemName = "CustomSubsystem";
     }
-    
+
     fullScript += "public class " + subsystemName + " extends SubsystemBase {";
     
 
