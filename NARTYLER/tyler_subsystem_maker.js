@@ -11,20 +11,99 @@ var numberOfMotors = 0;
 
 var copyScript = "";
 
-var variables = "";
+var variables = `
+package frc.team3128.subsystems;
+
+import common.hardware.motorcontroller.NAR_CANSpark;
+import common.hardware.motorcontroller.NAR_TalonFX;
+`;
 
 function runScriptMaker() {
-    var fullScript = `Hello, World!`;
+    var fullScript = ``;
     var subsystemName = subsystemNameInput.value;
-    var subsystemType = subsystemTypeInput.value;
-    
-    if (subsystemType == "Voltage") {
 
-    } else if (subsystemType == "Velocity") {
+    fullScript += variables;
 
-    } else if (subsystemType == "Position") {
-
+    if (subsystemName == "") {
+        subsystemName = "CustomSubsystem";
     }
+
+    fullScript += "public class " + subsystemName + " extends SubsystemBase {\n\n";
+    fullScript += "    private static " + subsystemName + " subsystem; \n\n"
+
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+        var motorType = document.getElementById(motorName).value;
+
+        if (motorType == "Spark") {
+            fullScript += "    public static Spark " + motorName + ";\n";
+        } else if (motorType == "TalonFX") {
+            fullScript += "    public static TalonFX " + motorName + ";\n";
+        }
+    }
+
+    fullScript += "\n";
+    fullScript += `    public `+ subsystemName +`(`
+
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+        var motorType = document.getElementById(motorName).value;
+
+        if (motorType == "Spark") {
+            fullScript += "Spark " + motorName;
+        } else if (motorType == "TalonFX") {
+            fullScript += "TalonFX " + motorName;
+        }
+
+        if (i != numberOfMotors - 1) {
+            fullScript += ", ";
+        }
+    }
+
+    fullScript += ") { \n";
+
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+
+        fullScript += "        this." + motorName + " = " + motorName + ";\n";
+    }
+
+    fullScript += `    }\n`;
+
+    fullScript += "\n";
+
+    fullScript +=
+        `    public Command exampleCommand() {
+         return runOnce(
+             //run something here
+             () -> {
+         });
+    }
+    \n`;
+
+    fullScript += 
+    `    public ` + subsystemName + ` getInstance() {
+            if (subsystem == null) {
+                subsystem = new Subsystem(`;
+
+    
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+
+        fullScript += motorName
+
+        if (i != numberOfMotors - 1) {
+            fullScript += ", ";
+        }else{
+            fullScript += ");";
+        }
+    }
+
+    fullScript += `}
+
+        return subsystem;
+    }
+}`;
 
     output.innerText = fullScript;
     copyScript = fullScript;
