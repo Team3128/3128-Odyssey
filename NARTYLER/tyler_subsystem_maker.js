@@ -2,11 +2,13 @@
 var motorNumberInput = document.getElementById("num");
 var subsystemNameInput = document.getElementById("subName");
 var output = document.getElementById("output");
-var refreshButton = document.getElementById("sumbitNum");
+var copyButton = document.getElementById("copy");
 
 var motorsArray = [];
 
 var numberOfMotors = 0;
+
+var copyScript = "";
 
 var variables =
     `package frc.robot;
@@ -105,6 +107,7 @@ function runScriptMaker() {
 }`;
 
     output.innerText = fullScript;
+    copyScript = fullScript;
 }
 
 function motorInput() {
@@ -149,3 +152,7 @@ function motorInput() {
 }
 
 motorInput();
+
+copyButton.addEventListener("click", function () {
+    navigator.clipboard.writeText(copyScript);
+});
