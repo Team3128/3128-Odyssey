@@ -13,8 +13,9 @@ var copyScript = "";
 var variables =
     `package frc.robot;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkFlex;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 `;
@@ -36,10 +37,12 @@ function runScriptMaker() {
         var motorName = "motor" + String(i + 1)
         var motorType = document.getElementById(motorName).value;
 
-        if (motorType == "CAN") {
-            fullScript += "    public static Spark " + motorName + ";\n";
+        if (motorType == "PWMSparkFlex") {
+            fullScript += "    public static PWMSparkFlex " + motorName + ";\n";
+        } else if (motorType == "PWMTalonFX") {
+            fullScript += "    public static PWMTalonFX " + motorName + ";\n";
         } else {
-            fullScript += "    public static VictorSP " + motorName + ";\n";
+            fullScript += "    public static PWMSparkMax " + motorName + ";\n";
         }
     }
 
@@ -50,10 +53,12 @@ function runScriptMaker() {
         var motorName = "motor" + String(i + 1)
         var motorType = document.getElementById(motorName).value;
 
-        if (motorType == "CAN") {
-            fullScript += "Spark " + motorName;
+        if (motorType == "PWMSparkFlex") {
+            fullScript += "PWMSparkFlex " + motorName;
+        } else if (motorType == "PWMTalonFX") {
+            fullScript += "PWMTalonFX " + motorName;
         } else {
-            fullScript += "VictorSP " + motorName;
+            fullScript += "PWMSparkMax " + motorName;
         }
 
         if (i != numberOfMotors - 1) {
@@ -128,8 +133,9 @@ function motorInput() {
             motorDiv.innerHTML =
                 `<label for="motor` + motorNumber + `">Motor ` + motorNumber + `: </label>
                 <select id="motor` + motorNumber + `">
-                    <option value="CAN">CAN</option>
-                    <option value="PWM">PWM</option>
+                    <option value="PWMSparkFlex">PWMSparkFlex</option>
+                    <option value="PWMSparkMax">PWMSparkMax</option>
+                    <option value="PWMTalonFX">PWMTalonFX</option>
                 </select>
             `;
 
