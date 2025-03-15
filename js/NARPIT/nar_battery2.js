@@ -1,26 +1,23 @@
 document.addEventListener("DOMContentLoaded", setUpBatteries);
 
 function setUpBatteries() {
-    clearBatteries();
+    let storedData = JSON.parse(localStorage.getItem("batteryLog"));
     let batteryList = JSON.parse(sessionStorage.getItem("setBatteries"));
 
-    if (batteryList == null) {
-        if (sessionStorage.getItem("isComp")) {
-            batteryList = batteries.filter(battery => battery.type == "comp");
-        } else {
-            batteryList = batteries.filter(battery => battery.type == "practice");
+    if (!storedData) {
+        if (batteryList == null) {
+            if (sessionStorage.getItem("isComp")) {
+                batteryList = batteries.filter(battery => battery.type == "comp");
+            } else {
+                batteryList = batteries.filter(battery => battery.type == "practice");
+            }
         }
+        storedData = batteryList.map(battery => ({ ...battery, timestamp: null }));
+        localStorage.setItem("batteryLog", JSON.stringify(storedData));
     }
 
-    console.log("battery list", batteryList);
-
-    let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-    batteryList.forEach(battery => {
-        storedData.push(battery);
-    });
-    localStorage.setItem("batteryLog", JSON.stringify(storedData));
-
-    loadBatteries(batteryList);
+    loadBatteries(storedData);
+    createResetButton();
 }
 
 function loadBatteries(batteries) {
@@ -46,17 +43,28 @@ function loadBatteries(batteries) {
         input.autocomplete = 'off';
         input.spellcheck = false;
 
+        let timeDisplay = document.createElement('span');
+        timeDisplay.classList.add('timestamp');
+        if (battery.timestamp) {
+            timeDisplay.textContent = battery.timestamp;
+        }
+
         input.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
+            if (event.key === "Enter" && input.value.trim() === battery.number.toString()) {
                 const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 console.log(`Battery Number: ${battery.number}, Time: ${timestamp}`);
-                const timeDisplay = document.createElement('span');
+                battery.timestamp = timestamp;
+                localStorage.setItem("batteryLog", JSON.stringify(batteries));
                 timeDisplay.textContent = timestamp;
                 div.replaceChild(timeDisplay, input);
             }
         });
 
-        div.appendChild(input);
+        if (battery.timestamp) {
+            div.appendChild(timeDisplay);
+        } else {
+            div.appendChild(input);
+        }
         div.appendChild(a);
         batList.appendChild(div);
 
@@ -91,4 +99,19 @@ function clearBatteries() {
     localStorage.removeItem("batteryLog");
     const batList = document.getElementById("batList");
     batList.innerHTML = '';
+}
+
+function createResetButton() {
+    let existingButton = document.getElementById("resetButton");
+    if (!existingButton) {
+        let button = document.createElement("button");
+        button.id = "resetButton";
+        button.textContent = "Reset Batteries";
+        button.addEventListener("click", function() {
+            localStorage.removeItem("batteryLog");
+            sessionStorage.removeItem("setBatteries");
+            setUpBatteries();
+        });
+        document.body.appendChild(button);
+    }
 }

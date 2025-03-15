@@ -43,7 +43,14 @@ html, body {
     border: 2px dashed #888;
 }
 
-.textbox {
-    width: 3%;
+.textbox, .battery_item span {
+    font-size: 16px; /* Adjust as needed */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: inline-block;
+    width: 80px; /* Match the textbox width */
+    text-align: center;
     margin: 1vw;
 }
+
