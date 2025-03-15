@@ -38,11 +38,13 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     
 }
 
 button:hover {
     opacity: 0.8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 button:nth-child(2) {
@@ -74,6 +76,7 @@ button.danger {
     margin-top: 0;
     padding-top: 15px;
     display: block;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #toplogo {
@@ -94,6 +97,7 @@ button.danger {
     color: white;
     padding: 20px;
     border-radius: 9px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #motorArray div {
