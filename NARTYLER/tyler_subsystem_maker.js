@@ -1,7 +1,7 @@
 //created by tyler enderwick
 var motorNumberInput = document.getElementById("num");
 var subsystemNameInput = document.getElementById("subName");
-var subsystemTypeInput = document.getElementById("subsystemType");
+//var subsystemTypeInput = document.getElementById("subsystemType");
 var output = document.getElementById("output");
 var copyButton = document.getElementById("copy");
 
@@ -11,11 +11,15 @@ var numberOfMotors = 0;
 
 var copyScript = "";
 
-var variables = `
-package frc.team3128.subsystems;
+var variables = 
+`package frc.team3128.subsystems;
 
 import common.hardware.motorcontroller.NAR_CANSpark;
 import common.hardware.motorcontroller.NAR_TalonFX;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
+
 `;
 
 function runScriptMaker() {
@@ -28,17 +32,17 @@ function runScriptMaker() {
         subsystemName = "CustomSubsystem";
     }
 
-    fullScript += "public class " + subsystemName + " extends SubsystemBase {\n\n";
-    fullScript += "    private static " + subsystemName + " subsystem; \n\n"
+    fullScript += "public class " + subsystemName + " {\n\n";
+    fullScript += "    private static " + subsystemName + " instance; \n\n"
 
     for (var i = 0; i < numberOfMotors; i++) {
         var motorName = "motor" + String(i + 1)
         var motorType = document.getElementById(motorName).value;
 
         if (motorType == "Spark") {
-            fullScript += "    public static Spark " + motorName + ";\n";
+            fullScript += "    public static NAR_CANSpark " + motorName + ";\n";
         } else if (motorType == "TalonFX") {
-            fullScript += "    public static TalonFX " + motorName + ";\n";
+            fullScript += "    public static NAR_TalonFX " + motorName + ";\n";
         }
     }
 
@@ -50,9 +54,9 @@ function runScriptMaker() {
         var motorType = document.getElementById(motorName).value;
 
         if (motorType == "Spark") {
-            fullScript += "Spark " + motorName;
+            fullScript += "NAR_CANSpark " + motorName;
         } else if (motorType == "TalonFX") {
-            fullScript += "TalonFX " + motorName;
+            fullScript += "NAR_TalonFX " + motorName;
         }
 
         if (i != numberOfMotors - 1) {
@@ -74,17 +78,17 @@ function runScriptMaker() {
 
     fullScript +=
         `    public Command exampleCommand() {
-         return runOnce(
-             //run something here
-             () -> {
-         });
+        return runOnce(
+            //run something here
+            () -> {
+        });
     }
     \n`;
 
     fullScript += 
     `    public ` + subsystemName + ` getInstance() {
-            if (subsystem == null) {
-                subsystem = new Subsystem(`;
+        if (instance == null) {
+            instance = new ` + subsystemName +`(`;
 
     
     for (var i = 0; i < numberOfMotors; i++) {
@@ -99,9 +103,10 @@ function runScriptMaker() {
         }
     }
 
-    fullScript += `}
+    fullScript += `
+        }
 
-        return subsystem;
+        return instance;
     }
 }`;
 
