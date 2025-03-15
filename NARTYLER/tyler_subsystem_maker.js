@@ -17,19 +17,35 @@ function motorInput() {
 
     var difference = Math.abs(numberOfMotors - motorsArray.length);
 
+    //console.log(numberOfMotors, motorsArray.length, difference);
+
     if (numberOfMotors > motorsArray.length) {
         //make more motors
         for (i = 0; i < difference; i++) {
-            motorsArray.push("Motor");
+            var motorDiv = document.createElement("div");
+            var motorNumber = String(motorsArray.length + 1)
+
+            motorDiv.innerHTML =
+            `<label for="motor` + motorNumber +`">Motor ` + motorNumber + `: </label>
+                <select id="motor` + motorNumber +`">
+                    <option value="CAN">CAN</option>
+                    <option value="PWM">PWM</option>
+                </select>
+            `;
+
+            document.getElementById("motorArray").appendChild(motorDiv);
+
+            motorsArray.push(motorDiv);
         }
     } else if (numberOfMotors < motorsArray.length){
         //get rid of motors
         for (i = 0; i < difference; i++) {
+            motorsArray[motorsArray.length - 1].remove();
             motorsArray.pop();
         }
     }
 
-    console.log(motorsArray);
+    setTimeout(motorInput, 100);
 }
 
-setInterval(motorInput, 100);
+motorInput();
