@@ -82,7 +82,7 @@ button.danger {
 
 #outputdiv {
     margin: 0 auto;
-    width: 50%;
+    width: 700px;
     padding: auto 0;
     display: block;
 }
@@ -90,6 +90,7 @@ button.danger {
 #output {
     text-align: left;
     background-color: #302d2d;
+    overflow-x: scroll;
     color: white;
     padding: 20px;
     border-radius: 9px;
