@@ -8,8 +8,8 @@ var motorsArray = [];
 
 var numberOfMotors = 0;
 
-var variables = 
-`package frc.robot;
+var variables =
+    `package frc.robot;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -31,7 +31,7 @@ function runScriptMaker() {
     fullScript += "    private static " + subsystemName + " subsystem; \n\n"
 
     for (var i = 0; i < numberOfMotors; i++) {
-        var motorName =  "motor" + String(i + 1)
+        var motorName = "motor" + String(i + 1)
         var motorType = document.getElementById(motorName).value;
 
         if (motorType == "CAN") {
@@ -42,10 +42,10 @@ function runScriptMaker() {
     }
 
     fullScript += "\n";
-    fullScript += "    public Subsystem("
+    fullScript += `    public `+ subsystemName +`(`
 
     for (var i = 0; i < numberOfMotors; i++) {
-        var motorName =  "motor" + String(i + 1)
+        var motorName = "motor" + String(i + 1)
         var motorType = document.getElementById(motorName).value;
 
         if (motorType == "CAN") {
@@ -62,14 +62,47 @@ function runScriptMaker() {
     fullScript += ") { \n";
 
     for (var i = 0; i < numberOfMotors; i++) {
-        var motorName =  "motor" + String(i + 1)
+        var motorName = "motor" + String(i + 1)
 
         fullScript += "        this." + motorName + " = " + motorName + ";\n";
     }
 
-    fullScript += "    }\n";
+    fullScript += `    }\n`;
 
     fullScript += "\n";
+
+    fullScript +=
+        `    public Command exampleCommand() {
+         return runOnce(
+             //run something here
+             () -> {
+         });
+    }
+    \n`;
+
+    fullScript += 
+    `    public ` + subsystemName + ` getInstance() {
+            if (subsystem == null) {
+                subsystem = new Subsystem(`;
+
+    
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+
+        fullScript += motorName
+
+        if (i != numberOfMotors - 1) {
+            fullScript += ", ";
+        }else{
+            fullScript += ");";
+        }
+    }
+
+    fullScript += `}
+
+        return subsystem;
+    }
+}`;
 
     output.innerText = fullScript;
 }
@@ -90,8 +123,8 @@ function motorInput() {
             var motorNumber = String(motorsArray.length + 1)
 
             motorDiv.innerHTML =
-            `<label for="motor` + motorNumber +`">Motor ` + motorNumber + `: </label>
-                <select id="motor` + motorNumber +`">
+                `<label for="motor` + motorNumber + `">Motor ` + motorNumber + `: </label>
+                <select id="motor` + motorNumber + `">
                     <option value="CAN">CAN</option>
                     <option value="PWM">PWM</option>
                 </select>
@@ -101,7 +134,7 @@ function motorInput() {
             document.getElementById("motorArray").appendChild(motorDiv);
             motorsArray.push(motorDiv);
         }
-    } else if (numberOfMotors < motorsArray.length){
+    } else if (numberOfMotors < motorsArray.length) {
         //get rid of motors
         for (i = 0; i < difference; i++) {
             //removes the motor from html, then removes it from the array
