@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Urbanist:wght@100..900&display=swap');
 
 html, body {
     background-color: #f2f5ff;
@@ -13,18 +13,21 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
-    padding: 0;
     width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .battery_item {
-    background-color: red;
-    margin: 1vw;
-    padding: 2vw;
-    border-radius: 15px;
-    display: block;
-    width: 500px;
+    background-color: white;
+    width: 90%; /* Adjust as needed */
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: grab;
     transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
@@ -44,13 +47,45 @@ html, body {
 }
 
 .textbox, .battery_item span {
-    font-size: 16px; /* Adjust as needed */
+    font-size: 16px;
     padding: 5px;
+    width: 80px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    display: inline-block;
-    width: 80px; /* Match the textbox width */
     text-align: center;
     margin: 1vw;
 }
 
+/* Color Slider */
+.color-slider {
+    width: 40px;
+    height: 20px;
+    appearance: none;
+    background: lightblue;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    position: relative;
+    margin-left: auto;
+}
+
+.color-slider::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.color-slider:checked {
+    background: lightcoral;
+}
+
+.color-slider:checked::before {
+    left: 22px;
+}

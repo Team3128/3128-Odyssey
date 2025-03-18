@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", setUpBatteries);
 
 function setUpBatteries() {
+    clearBatteries();
+
     let storedData = JSON.parse(localStorage.getItem("batteryLog"));
     let batteryList = JSON.parse(sessionStorage.getItem("setBatteries"));
 
@@ -12,7 +14,7 @@ function setUpBatteries() {
                 batteryList = batteries.filter(battery => battery.type == "practice");
             }
         }
-        storedData = batteryList.map(battery => ({ ...battery, timestamp: null }));
+        storedData = batteryList.map(battery => ({ ...battery, timestamp: null, allianceColor: "#3d6cef" }));
         localStorage.setItem("batteryLog", JSON.stringify(storedData));
     }
 
@@ -35,6 +37,7 @@ function loadBatteries(batteries) {
         div.classList.add('battery_item');
         div.draggable = true;
         div.dataset.index = index;
+        div.style.backgroundColor = battery.allianceColor;
 
         let input = document.createElement('input');
         input.id = `textbox${battery.number}`;
@@ -48,6 +51,16 @@ function loadBatteries(batteries) {
         if (battery.timestamp) {
             timeDisplay.textContent = battery.timestamp;
         }
+
+        let slider = document.createElement('input');
+        slider.type = 'checkbox';
+        slider.classList.add('color-slider');
+        slider.checked = battery.allianceColor === "#ef3d3d";
+        slider.addEventListener("change", function() {
+            battery.allianceColor = slider.checked ? "#ef3d3d" : "#3d6cef";
+            div.style.backgroundColor = battery.allianceColor;
+            localStorage.setItem("batteryLog", JSON.stringify(batteries));
+        });
 
         input.addEventListener("keydown", function(event) {
             if (event.key === "Enter" && input.value.trim() === battery.number.toString()) {
@@ -66,6 +79,7 @@ function loadBatteries(batteries) {
             div.appendChild(input);
         }
         div.appendChild(a);
+        div.appendChild(slider);
         batList.appendChild(div);
 
         div.addEventListener("dragstart", handleDragStart);

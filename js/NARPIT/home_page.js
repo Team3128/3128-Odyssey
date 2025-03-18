@@ -1,6 +1,6 @@
+clearSessionStorage();
+
 window.onload=function() {
-    clearSessionStorage();
-    
     document.getElementById("online").addEventListener("change", function(event) {
         if (event.target.checked) {
             sessionStorage.online = true;
