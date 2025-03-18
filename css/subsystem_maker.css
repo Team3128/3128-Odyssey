@@ -38,10 +38,13 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
 }
 
 button:hover {
     opacity: 0.8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 button:nth-child(2) {
@@ -65,4 +68,39 @@ button.danger {
 
 .delete-btn:hover {
     background-color: #cc0000;
+}
+
+#topdiv {
+    background-color: #1b1464;
+    border-radius: 9px;
+    margin-top: 0;
+    padding-top: 15px;
+    display: block;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#toplogo {
+    width: 40%;
+}
+
+#outputdiv {
+    margin: 0 auto;
+    width: 700px;
+    padding: auto 0;
+    display: block;
+}
+
+#output {
+    text-align: left;
+    background-color: #302d2d;
+    overflow-x: scroll;
+    color: white;
+    padding: 20px;
+    border-radius: 9px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#motorArray div {
+    display: inline-block;
+    padding: 10px;
 }

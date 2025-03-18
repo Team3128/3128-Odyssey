@@ -1,94 +1,162 @@
-//hi 🤪
-//var typeInput = document.getElementById("type");
-var numberOfMotors = document.getElementById("num");
-var motors = [];
+//created by tyler enderwick
+var motorNumberInput = document.getElementById("num");
+var subsystemNameInput = document.getElementById("subName");
+//var subsystemTypeInput = document.getElementById("subsystemType");
 var output = document.getElementById("output");
-var refreshButton = document.getElementById("sumbitNum");
+var copyButton = document.getElementById("copy");
 
-var variables =  `
-package frc.robot;
+var motorsArray = [];
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+var numberOfMotors = 0;
+
+var copyScript = "";
+
+var variables = 
+`package frc.team3128.subsystems;
+
+import common.hardware.motorcontroller.NAR_CANSpark;
+import common.hardware.motorcontroller.NAR_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
+
 `;
 
-var help = `
-public class Subsystem extends SubsystemBase{
+function runScriptMaker() {
+    var fullScript = ``;
+    var subsystemName = subsystemNameInput.value;
 
-    private static Subsystem subsystem;
+    fullScript += variables;
 
-    public static Spark can;
-    public static VictorSP pwm;
-
-    public Subsystem(Spark can, VictorSP pwm) {
-        this.can = can;
-        this.pwm = pwm;
+    if (subsystemName == "") {
+        subsystemName = "CustomSubsystem";
     }
 
-    public Command run() {
+    fullScript += "public class " + subsystemName + " {\n\n";
+    fullScript += "    private static " + subsystemName + " instance; \n\n"
+
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+        var motorType = document.getElementById(motorName).value;
+
+        if (motorType == "Spark") {
+            fullScript += "    public static NAR_CANSpark " + motorName + ";\n";
+        } else if (motorType == "TalonFX") {
+            fullScript += "    public static NAR_TalonFX " + motorName + ";\n";
+        }
+    }
+
+    fullScript += "\n";
+    fullScript += `    public `+ subsystemName +`(`
+
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+        var motorType = document.getElementById(motorName).value;
+
+        if (motorType == "Spark") {
+            fullScript += "NAR_CANSpark " + motorName;
+        } else if (motorType == "TalonFX") {
+            fullScript += "NAR_TalonFX " + motorName;
+        }
+
+        if (i != numberOfMotors - 1) {
+            fullScript += ", ";
+        }
+    }
+
+    fullScript += ") { \n";
+
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+
+        fullScript += "        this." + motorName + " = " + motorName + ";\n";
+    }
+
+    fullScript += `    }\n`;
+
+    fullScript += "\n";
+
+    fullScript +=
+        `    public Command exampleCommand() {
         return runOnce(
-        () -> {
             //run something here
+            () -> {
         });
     }
+    \n`;
 
-    public Subsystem getInstance() {
-        if (subsystem == null) {
-            subsystem = new Subsystem(can, pwm);
+    fullScript += 
+    `    public ` + subsystemName + ` getInstance() {
+        if (instance == null) {
+            instance = new ` + subsystemName +`(`;
+
+    
+    for (var i = 0; i < numberOfMotors; i++) {
+        var motorName = "motor" + String(i + 1)
+
+        fullScript += motorName
+
+        if (i != numberOfMotors - 1) {
+            fullScript += ", ";
+        }else{
+            fullScript += ");";
+        }
+    }
+
+    fullScript += `
         }
 
-        return subsystem;
+        return instance;
     }
-}
-`;
-
-
-
-
-
-
-
-
-
-function createSubsystem(typeBase, motors){  
-    var fullScript = `//copy and paste this:
-    `;
-    fullScript += variables;
-    fullScript += help;
-
+}`;
 
     output.innerText = fullScript;
+    copyScript = fullScript;
 }
 
+function motorInput() {
+    numberOfMotors = motorNumberInput.value;
 
-createSubsystem(
-    "Velocity", //TYPE
-    [//MOTORS
-    ["motor1", "Kraken"],
-    ["motor2","Kraken"]
-    ]
-);
+    if (numberOfMotors < 1) {
+        numberOfMotors = 1;
+    }
 
-function changeMotorInputs() {
-    if (motors.length > numberOfMotors) {
-        for (i = 0; i < motors.length - numberOfMotors; i++) {
+    var difference = Math.abs(numberOfMotors - motorsArray.length);
 
+    if (numberOfMotors > motorsArray.length) {
+        //make more motors
+        for (i = 0; i < difference; i++) {
+            var motorDiv = document.createElement("div");
+            var motorNumber = String(motorsArray.length + 1)
+
+            motorDiv.innerHTML =
+                `<label for="motor` + motorNumber + `">Motor ` + motorNumber + `: </label>
+                <select id="motor` + motorNumber + `">
+                    <option value="Spark">Spark</option>
+                    <option value="TalonFX">TalonFX</option>
+                </select>
+            `;
+
+            //adds the motor to html, then adds it to the array
+            document.getElementById("motorArray").appendChild(motorDiv);
+            motorsArray.push(motorDiv);
         }
-    } else if (motors.length < numberOfMotors) {
-        for (i = 0; i < numberOfMotors - motors.length; i++) {
-            
+    } else if (numberOfMotors < motorsArray.length) {
+        //get rid of motors
+        for (i = 0; i < difference; i++) {
+            //removes the motor from html, then removes it from the array
+            motorsArray[motorsArray.length - 1].remove();
+            motorsArray.pop();
         }
     }
 
-    var motors = [];
+    runScriptMaker();
+
+    setTimeout(motorInput, 100);
 }
 
-setInterval(changeMotorInputs, 100);
-setInterval(createSubsystem, 100);
+motorInput();
 
-//types we could have: velocity, voltage, position
-//motor types: kraken, neo, 
-//motor controlelrs: talon, spark max, spark flex
-//class name
+copyButton.addEventListener("click", function () {
+    navigator.clipboard.writeText(copyScript);
+});
