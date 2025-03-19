@@ -1,205 +1,130 @@
-// document.addEventListener("DOMContentLoaded", setUp);
+document.addEventListener("DOMContentLoaded", setUpBatteries);
 
-// /* Battery List Setup */
+function setUpBatteries() {
+    clearBatteries();
 
+    let storedData = JSON.parse(localStorage.getItem("batteryLog"));
+    let batteryList = JSON.parse(sessionStorage.getItem("setBatteries"));
 
-// /* Offline Mode Code */
-
-// function loadBatteriesOffline(rotation) {
-//     let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-    
-//     rotation.forEach(battery => {
-//         storedData.push(battery);
-//     });
-//     localStorage.setItem("batteryLog", JSON.stringify(storedData));
-
-//     loadBatteries();
-// }
-
-// /* Match Scraping Code */
-
-// /* Setup Code */
-
-// function loadBatteries() {
-//     let test = JSON.parse(localStorage.getItem("batteryLog"));
-//     test.forEach( battery => {
-        
-//     })
-// }
-
-// function batterySetup() {
-//     // loadBatteriesOffline(batteryList);  
-// }
-
-// function generalSetup() {
-    
-// }
-
-// /* Old Code */
-// function saveData() {
-//     let batteryNumber = document.getElementById("batteryNumber").value.trim();
-
-//     let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-//     let timestamp = new Date().toLocaleString();
-
-//     storedData.push({ batteryNumber, timestamp });
-//     localStorage.setItem("batteryLog", JSON.stringify(storedData));
-
-//     document.getElementById("batteryNumber").value = "";
-//     document.getElementById("notes").value = ""; // Clear input fields
-
-//     loadData();
-// }
-
-// function loadData() {
-//     let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-//     let tableBody = document.getElementById("dataTable");
-
-//     tableBody.innerHTML = ""; // Clear table before inserting new data
-
-//     storedData.forEach((entry, index) => {
-//         let row = document.createElement("tr");
-//         row.innerHTML = `
-//             <td>${entry}</td>
-//             <td><button class="delete-btn" onclick="deleteEntry(${index})">Delete</button></td>
-//         `;
-//         tableBody.appendChild(row);
-//     });
-// }
-
-// function deleteEntry(index) {
-//     let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-//     storedData.splice(index, 1); // Remove entry at specified index
-//     localStorage.setItem("batteryLog", JSON.stringify(storedData));
-//     loadData();
-// }
-
-// function exportData() {
-//     let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-
-//     if (storedData.length === 0) {
-//         alert("No data to export!");
-//         return;
-//     }
-
-//     let dataStr = JSON.stringify(storedData, null, 4); // Pretty print JSON
-//     let blob = new Blob([dataStr], { type: "application/json" });
-//     let url = URL.createObjectURL(blob);
-
-//     let a = document.createElement("a");
-//     a.href = url;
-//     a.download = "battery_log.json";
-//     document.body.appendChild(a);
-//     a.click();
-//     document.body.removeChild(a);
-// }
-
-// function clearAllData() {
-//     localStorage.removeItem("batteryLog");
-//     loadData(); // Refresh table
-// }
-
-// function setUp() {
-//     clearAllData();
-
-//     let batteryList = JSON.parse(sessionStorage.getItem("setBatteries"));
-
-//     if (batteryList == null) {
-//         if (sessionStorage.isComp) {
-//             batteryList = batteries.filter(battery => battery.type=="comp");
-//         } 
-//         else {
-//             batteryList = batteries.filter(battery => battery.type=="practice");
-//         }
-//     } 
-
-//     loadBatteriesOffline(batteryList);
-// }
-document.addEventListener("DOMContentLoaded", loadData);
-
-/* Battery List Setup */
-let batteryList = JSON.parse(sessionStorage.getItem("setBatteries"));
-
-if (batteryList == null) {
-    if (sessionStorage.isComp) {
-        batteryList = batteries.filter(battery => battery.type == "comp");
-    } else {
-        batteryList = batteries.filter(battery => battery.type == "practice");
+    if (!storedData) {
+        if (batteryList == null) {
+            if (sessionStorage.getItem("isComp")) {
+                batteryList = batteries.filter(battery => battery.type == "comp");
+            } else {
+                batteryList = batteries.filter(battery => battery.type == "practice");
+            }
+        }
+        storedData = batteryList.map(battery => ({ ...battery, timestamp: null, allianceColor: "#3d6cef" }));
+        localStorage.setItem("batteryLog", JSON.stringify(storedData));
     }
+
+    loadBatteries(storedData);
+    createResetButton();
 }
 
-loadBatteriesOffline(batteryList);
-displayBatteryList(batteryList);
-
-/* Offline Mode Code */
-function loadBatteriesOffline(rotation) {
-    let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-    rotation.forEach(battery => {
-        storedData.push(battery);
-    });
-    localStorage.setItem("batteryLog", JSON.stringify(storedData));
-    loadData();
-}
-
-/* Display Battery List */
-function displayBatteryList(batteries) {
-    let batteryContainer = document.getElementById("batteryList");
-    batteryContainer.innerHTML = ""; // Clear previous list
+function loadBatteries(batteries) {
+    const batList = document.getElementById('batList');
+    batList.innerHTML = '';
 
     batteries.forEach((battery, index) => {
-        let listItem = document.createElement("li");
-        listItem.textContent = `Battery ${index + 1}: ${battery.name} (${battery.type})`;
-        batteryContainer.appendChild(listItem);
+        var div = document.createElement('div');
+        var a = document.createElement('a');
+        var linkText = document.createTextNode(battery.number);
+
+        a.appendChild(linkText);
+        a.title = battery.number;
+        div.classList.add('battery_item');
+        div.draggable = true;
+        div.dataset.index = index;
+        div.style.backgroundColor = battery.allianceColor;
+
+        let input = document.createElement('input');
+        input.id = `textbox${battery.number}`;
+        input.type = 'text';
+        input.classList.add('textbox');
+        input.autocomplete = 'off';
+        input.spellcheck = false;
+
+        let timeDisplay = document.createElement('span');
+        timeDisplay.classList.add('timestamp');
+        if (battery.timestamp) {
+            timeDisplay.textContent = battery.timestamp;
+        }
+
+        let slider = document.createElement('input');
+        slider.type = 'checkbox';
+        slider.classList.add('color-slider');
+        slider.checked = battery.allianceColor === "#ef3d3d";
+        slider.addEventListener("change", function() {
+            battery.allianceColor = slider.checked ? "#ef3d3d" : "#3d6cef";
+            div.style.backgroundColor = battery.allianceColor;
+            localStorage.setItem("batteryLog", JSON.stringify(batteries));
+        });
+
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Enter" && input.value.trim() === battery.number.toString()) {
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                console.log(`Battery Number: ${battery.number}, Time: ${timestamp}`);
+                battery.timestamp = timestamp;
+                localStorage.setItem("batteryLog", JSON.stringify(batteries));
+                timeDisplay.textContent = timestamp;
+                div.replaceChild(timeDisplay, input);
+            }
+        });
+
+        if (battery.timestamp) {
+            div.appendChild(timeDisplay);
+        } else {
+            div.appendChild(input);
+        }
+        div.appendChild(a);
+        div.appendChild(slider);
+        batList.appendChild(div);
+
+        div.addEventListener("dragstart", handleDragStart);
+        div.addEventListener("dragover", handleDragOver);
+        div.addEventListener("drop", handleDrop);
     });
 }
 
-/* Load Data */
-function loadData() {
-    let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-    let tableBody = document.getElementById("dataTable");
-    tableBody.innerHTML = "";
+function handleDragStart(event) {
+    event.dataTransfer.setData("text/plain", event.target.dataset.index);
+}
+
+function handleDragOver(event) {
+    event.preventDefault();
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    let draggedIndex = event.dataTransfer.getData("text/plain");
+    let targetIndex = event.target.closest('.battery_item').dataset.index;
     
-    storedData.forEach((entry, index) => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${entry.name}</td>
-            <td>${entry.type}</td>
-            <td><button class="delete-btn" onclick="deleteEntry(${index})">Delete</button></td>
-        `;
-        tableBody.appendChild(row);
-    });
+    let batteryList = JSON.parse(localStorage.getItem("batteryLog"));
+    let draggedItem = batteryList.splice(draggedIndex, 1)[0];
+    batteryList.splice(targetIndex, 0, draggedItem);
+    
+    localStorage.setItem("batteryLog", JSON.stringify(batteryList));
+    loadBatteries(batteryList);
 }
 
-/* Delete Entry */
-function deleteEntry(index) {
-    let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-    storedData.splice(index, 1);
-    localStorage.setItem("batteryLog", JSON.stringify(storedData));
-    loadData();
+function clearBatteries() {
+    localStorage.removeItem("batteryLog");
+    const batList = document.getElementById("batList");
+    batList.innerHTML = '';
 }
 
-/* Export Data */
-function exportData() {
-    let storedData = JSON.parse(localStorage.getItem("batteryLog")) || [];
-    if (storedData.length === 0) {
-        alert("No data to export!");
-        return;
-    }
-    let dataStr = JSON.stringify(storedData, null, 4);
-    let blob = new Blob([dataStr], { type: "application/json" });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement("a");
-    a.href = url;
-    a.download = "battery_log.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-}
-
-/* Clear All Data */
-function clearAllData() {
-    if (confirm("Are you sure you want to delete all data? This cannot be undone.")) {
-        localStorage.removeItem("batteryLog");
-        loadData();
+function createResetButton() {
+    let existingButton = document.getElementById("resetButton");
+    if (!existingButton) {
+        let button = document.createElement("button");
+        button.id = "resetButton";
+        button.textContent = "Reset Batteries";
+        button.addEventListener("click", function() {
+            localStorage.removeItem("batteryLog");
+            sessionStorage.removeItem("setBatteries");
+            setUpBatteries();
+        });
+        document.body.appendChild(button);
     }
 }
