@@ -22,7 +22,3 @@ async function fetchTBAData(apiUrl) {
         return -1;
     }
 }
-
-// const test = generateAPIUrl("2025bcvi", authKey).then(fetchTBAData);
-
-// console.log(fetchTBAData("https://www.thebluealliance.com/api/v3/team/frc3128/event/2025bcvi/matches/simple?X-TBA-Auth-Key=V3i857s3hLtePEnhqMeSFUSxaqRJeiXIUyHMEEcNXhRkLTYEDbUS4ngKwDiBrj2b"));

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", setUpBatteries);
+document.addEventListener("DOMContentLoaded", setupBatteriesOnline);
 
 function setUpBatteries() {
     clearBatteries();
