@@ -15,7 +15,8 @@ function getQMData(TBAData) {
     .map(match => ({
         matchNumber: match.match_number,
         allianceColor: getAllianceColor(match),
-        number: getBatteryNumber()
+        number: getBatteryNumber(),
+        time: getTime(match)
     }))
 }
 
@@ -29,6 +30,21 @@ function getBatteryNumber() {
     return batNum;
 }
 
+function getTime(match) {
+    date = new Date(match.predicted_time * 1000)
+    let options = {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+    }
+
+    time = date.toLocaleTimeString("en-US", options)
+    console.log(time)
+    return time;
+}
+
 function loadBatteriesOnline(batteries) {
     const batList = document.getElementById('batList');
     batList.innerHTML = '';
@@ -40,14 +56,22 @@ function loadBatteriesOnline(batteries) {
 
         a.appendChild(linkText);
         a.title = battery.number;
+
         div.classList.add('battery_item');
         div.dataset.index = index;
         div.style.backgroundColor = battery.allianceColor === "blue" ? "#ef3d3d" : "#3d6cef";
 
+        let matchTime = document.createElement('p');
+        matchTime.classList.add('match_time');
+        matchTime.innerText = ` ${battery.time}`;
+
         let batNum = document.createElement('p');
         batNum.classList.add('battery_number');
+
         batNum.id = `batnum${battery.number}`;
         batNum.innerText = battery.number;
+
+
         
         let input = document.createElement('input');
         input.id = `textbox${battery.number}`;
@@ -74,7 +98,8 @@ function loadBatteriesOnline(batteries) {
         });
 
         div.appendChild(a);
-        div.appendChild(batNum)
+        div.appendChild(matchTime);
+        div.appendChild(batNum);
         if (battery.timestamp) {
             div.appendChild(timeDisplay);
         } else {

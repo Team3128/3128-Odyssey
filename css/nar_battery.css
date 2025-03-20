@@ -1,14 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Urbanist:wght@100..900&display=swap');
 
 html, body {
-    background-color: #f2f5ff;
+    background-color: #ffffff;
     background-attachment: fixed;
     margin: 0;
     padding: 0;
     font-family: 'Roboto Flex', sans-serif; 
     min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Main container for battery list */
+#batListContainer {
+    width: 90vw;
+    max-width: 80vw;
+    background: #e7f1f4;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header section */
+#batteryHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #f9fdff;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Ensure alignment for headers and items */
+#batteryHeader p, 
+.battery_item p, 
+.battery_item input, 
+.timestamp {
+    flex: 1;
+    text-align: center;
+}
+
+/* Battery list styling */
 #batList {
     display: flex;
     flex-direction: column;
@@ -18,20 +54,74 @@ html, body {
     margin: 0;
 }
 
+/* Individual battery item */
 .battery_item {
-    background-color: white;
-    width: 90%; /* Adjust as needed */
-    padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     display: flex;
+    width: 70vw;
     align-items: center;
     justify-content: space-between;
-    cursor: grab;
-    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    padding: 15px 20px;
+    margin: 8px 0;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.115);
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+.battery_item:hover {
+    transform: scale(1.02);
+    background-color: #f8f8f8;
+}
+
+/* Text styling inside battery items */
+.battery_item p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.battery_item a {
+    display: inline-block;
+    padding: 8px;
+    border-radius: 50%;
+    margin-right: 5vw;
+    text-align: center;
+    min-width: 20px;
+    min-height: 20px;
+    line-height: 20px;
+}
+
+.battery_item[style*="background-color: rgb(239, 61, 61)"] a {
+    background-color: #ffe1e1; 
+}
+
+.battery_item[style*="background-color: rgb(61, 108, 239)"] a {
+    background-color: #e0e9ff;
+}
+
+/* Match time */
+.match_time {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Input field for battery number */
+.textbox {
+    width: 10vw;
+    padding: 6px;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Timestamp display */
+.timestamp {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Drag & drop enhancements */
 .battery_item:active {
     cursor: grabbing;
 }
@@ -46,17 +136,7 @@ html, body {
     border: 2px dashed #888;
 }
 
-.textbox, .battery_item span {
-    font-size: 16px;
-    padding: 5px;
-    width: 80px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-    margin: 1vw;
-}
-
-/* Color Slider */
+/* Color slider styling */
 .color-slider {
     width: 40px;
     height: 20px;
