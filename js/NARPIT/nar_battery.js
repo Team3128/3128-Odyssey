@@ -1,4 +1,9 @@
-document.addEventListener("DOMContentLoaded", setupBatteriesOnline);
+document.addEventListener("DOMContentLoaded", function() {
+    if (sessionStorage.getItem("isComp")) setupBatteriesOnline();
+    else setUpBatteries();
+    createAddButton();
+    createExportButton();
+});
 
 function setUpBatteries() {
     clearBatteries();
@@ -8,16 +13,14 @@ function setUpBatteries() {
 
     if (!storedData) {
         if (batteryList == null) {
-            if (sessionStorage.getItem("isComp")) {
-                batteryList = batteries.filter(battery => battery.type == "comp");
-            } else {
-                batteryList = batteries.filter(battery => battery.type == "practice");
-            }
+            batteryList = sessionStorage.getItem("isComp")
+                ? batteries.filter(battery => battery.type == "comp")
+                : batteries.filter(battery => battery.type == "practice");
         }
         storedData = batteryList.map(battery => ({ ...battery, timestamp: null, allianceColor: "#3d6cef" }));
-        localStorage.setItem("batteryLog", JSON.stringify(storedData));
     }
 
+    saveBatteryData(storedData);
     loadBatteries(storedData);
     createResetButton();
 }
@@ -28,18 +31,21 @@ function loadBatteries(batteries) {
 
     batteries.forEach((battery, index) => {
         var div = document.createElement('div');
-        var a = document.createElement('a');
-        var linkText = document.createTextNode(battery.number);
-
-        a.appendChild(linkText);
-        a.title = battery.number;
         div.classList.add('battery_item');
         div.draggable = true;
         div.dataset.index = index;
         div.style.backgroundColor = battery.allianceColor;
 
+        let numberInput = document.createElement('input');
+        numberInput.type = 'text';
+        numberInput.classList.add('numberbox');
+        numberInput.value = battery.number;
+        numberInput.addEventListener("change", function() {
+            battery.number = numberInput.value;
+            saveBatteryData(batteries);
+        });
+
         let input = document.createElement('input');
-        input.id = `textbox${battery.number}`;
         input.type = 'text';
         input.classList.add('textbox');
         input.autocomplete = 'off';
@@ -47,8 +53,12 @@ function loadBatteries(batteries) {
 
         let timeDisplay = document.createElement('span');
         timeDisplay.classList.add('timestamp');
+        
         if (battery.timestamp) {
             timeDisplay.textContent = battery.timestamp;
+            div.appendChild(timeDisplay);
+        } else {
+            div.appendChild(input);
         }
 
         let slider = document.createElement('input');
@@ -58,26 +68,24 @@ function loadBatteries(batteries) {
         slider.addEventListener("change", function() {
             battery.allianceColor = slider.checked ? "#ef3d3d" : "#3d6cef";
             div.style.backgroundColor = battery.allianceColor;
-            localStorage.setItem("batteryLog", JSON.stringify(batteries));
+            saveBatteryData(batteries);
         });
 
         input.addEventListener("keydown", function(event) {
             if (event.key === "Enter" && input.value.trim() === battery.number.toString()) {
                 const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                console.log(`Battery Number: ${battery.number}, Time: ${timestamp}`);
                 battery.timestamp = timestamp;
-                localStorage.setItem("batteryLog", JSON.stringify(batteries));
+                saveBatteryData(batteries);
                 timeDisplay.textContent = timestamp;
                 div.replaceChild(timeDisplay, input);
             }
         });
 
-        if (battery.timestamp) {
-            div.appendChild(timeDisplay);
-        } else {
-            div.appendChild(input);
-        }
-        div.appendChild(a);
+        let container = document.createElement('div');
+        container.classList.add('input-container');
+        container.appendChild(numberInput);
+        
+        div.appendChild(container);
         div.appendChild(slider);
         batList.appendChild(div);
 
@@ -104,8 +112,13 @@ function handleDrop(event) {
     let draggedItem = batteryList.splice(draggedIndex, 1)[0];
     batteryList.splice(targetIndex, 0, draggedItem);
     
-    localStorage.setItem("batteryLog", JSON.stringify(batteryList));
+    saveBatteryData(batteryList);
     loadBatteries(batteryList);
+}
+
+function saveBatteryData(batteries) {
+    sessionStorage.setItem("setBatteries", JSON.stringify(batteries));
+    localStorage.setItem("batteryLog", JSON.stringify(batteries));
 }
 
 function clearBatteries() {
@@ -115,16 +128,47 @@ function clearBatteries() {
 }
 
 function createResetButton() {
-    let existingButton = document.getElementById("resetButton");
-    if (!existingButton) {
-        let button = document.createElement("button");
-        button.id = "resetButton";
-        button.textContent = "Reset Batteries";
-        button.addEventListener("click", function() {
-            localStorage.removeItem("batteryLog");
-            sessionStorage.removeItem("setBatteries");
-            setUpBatteries();
-        });
-        document.body.appendChild(button);
-    }
+    let button = document.createElement("button");
+    button.id = "resetButton";
+    button.textContent = "Reset Batteries";
+    button.addEventListener("click", function() {
+        localStorage.removeItem("batteryLog");
+        sessionStorage.removeItem("setBatteries");
+        setUpBatteries();
+    });
+    document.body.appendChild(button);
+}
+
+function createAddButton() {
+    let button = document.createElement("button");
+    button.id = "addButton";
+    button.textContent = "Add Battery";
+    button.addEventListener("click", function() {
+        let batteryNumber = prompt("Enter Battery Number:");
+        if (batteryNumber) {
+            let batteryList = JSON.parse(localStorage.getItem("batteryLog")) || [];
+            batteryList.push({ number: batteryNumber, timestamp: null, allianceColor: "#3d6cef" });
+            saveBatteryData(batteryList);
+            loadBatteries(batteryList);
+        }
+    });
+    document.body.appendChild(button);
+}
+
+function createExportButton() {
+    let button = document.createElement("button");
+    button.id = "exportButton";
+    button.textContent = "Export Battery Data";
+    button.addEventListener("click", function() {
+        let batteryList = JSON.parse(localStorage.getItem("batteryLog")) || [];
+        let jsonContent = JSON.stringify(batteryList, null, 2);
+        let blob = new Blob([jsonContent], { type: "application/json" });
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "battery_data.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+    document.body.appendChild(button);
 }
