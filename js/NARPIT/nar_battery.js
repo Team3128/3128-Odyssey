@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     else setUpBatteries();
     createAddButton();
     createExportButton();
+    createResetButton();
 });
 
 function setUpBatteries() {
@@ -15,21 +16,22 @@ function setUpBatteries() {
         if (batteryList == null) {
             batteryList = sessionStorage.getItem("isComp")
                 ? batteries.filter(battery => battery.type == "comp")
-                : batteries.filter(battery => battery.type == "practice");
+                : batteries.filter(battery => battery.type == "comp");
         }
-        storedData = batteryList.map(battery => ({ ...battery, timestamp: null, allianceColor: "#3d6cef" }));
+        storedData = batteryList.map(battery => ({ ...battery, timestamp: battery.timestamp, allianceColor: "#3d6cef" }));
     }
 
     saveBatteryData(storedData);
     loadBatteries(storedData);
-    createResetButton();
 }
 
 function loadBatteries(batteries) {
+    console.log(batteries);
     const batList = document.getElementById('batList');
     batList.innerHTML = '';
 
     batteries.forEach((battery, index) => {
+        if (battery.checked == null) battery.checked = false;
         var div = document.createElement('div');
         div.classList.add('battery_item');
         div.draggable = true;
@@ -45,6 +47,7 @@ function loadBatteries(batteries) {
             saveBatteryData(batteries);
         });
 
+
         let input = document.createElement('input');
         input.type = 'text';
         input.classList.add('textbox');
@@ -53,14 +56,7 @@ function loadBatteries(batteries) {
 
         let timeDisplay = document.createElement('span');
         timeDisplay.classList.add('timestamp');
-        
-        if (battery.timestamp) {
-            timeDisplay.textContent = battery.timestamp;
-            div.appendChild(timeDisplay);
-        } else {
-            div.appendChild(input);
-        }
-
+    
         let slider = document.createElement('input');
         slider.type = 'checkbox';
         slider.classList.add('color-slider');
@@ -75,11 +71,22 @@ function loadBatteries(batteries) {
             if (event.key === "Enter" && input.value.trim() === battery.number.toString()) {
                 const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 battery.timestamp = timestamp;
+                battery.checked = true;
                 saveBatteryData(batteries);
                 timeDisplay.textContent = timestamp;
                 div.replaceChild(timeDisplay, input);
+                localStorage.setItem("batteryLog", JSON.stringify(batteries)); // Ensure timestamp is saved
             }
         });
+
+        if (battery.checked) {
+            console.log("CHECKEd")
+            timeDisplay.textContent = battery.timestamp;
+            div.appendChild(timeDisplay);
+        } else {
+            div.appendChild(input);
+        }
+
 
         let container = document.createElement('div');
         container.classList.add('input-container');

@@ -4,6 +4,7 @@ async function setupBatteriesOnline() {
     clearBatteries();
 
     const TBAData = await generateAPIUrl("2025casd", authKey).then(fetchTBAData);
+    // const TBAData = await generateAPIUrl("2025bcvi", authKey).then(fetchTBAData);
     const QMData = getQMData(TBAData);
 
     loadBatteriesOnline(QMData);
