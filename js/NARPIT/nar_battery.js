@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    console.log(sessionStorage.getItem("isComp"));
     if (sessionStorage.getItem("isComp")) setupBatteriesOnline();
     else setUpBatteries();
     createAddButton();

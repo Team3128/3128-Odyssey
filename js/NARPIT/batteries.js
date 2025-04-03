@@ -143,7 +143,7 @@
             number: 26,
             type: "comp",
             grade: "A",
-            voltage: "above 12V:
+            voltage: "above 12V"
         },
         {
             number: 27,

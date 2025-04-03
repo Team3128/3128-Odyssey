@@ -1,10 +1,7 @@
-let count = 0;
-
 async function setupBatteriesOnline() {
     clearBatteries();
 
     const TBAData = await generateAPIUrl("2025casd", authKey).then(fetchTBAData);
-    // const TBAData = await generateAPIUrl("2025bcvi", authKey).then(fetchTBAData);
     const QMData = getQMData(TBAData);
 
     loadBatteriesOnline(QMData);
@@ -22,6 +19,7 @@ function getQMData(TBAData) {
 }
 
 function getAllianceColor(match) {
+    // console.log(match.alliances.blue.team_keys.includes('frc3128') ? "blue" : "red");
     return match.alliances.blue.team_keys.includes('frc3128') ? "blue" : "red";
 }
 
@@ -60,7 +58,7 @@ function loadBatteriesOnline(batteries) {
 
         div.classList.add('battery_item');
         div.dataset.index = index;
-        div.style.backgroundColor = battery.allianceColor === "blue" ? "#ef3d3d" : "#3d6cef";
+        div.style.backgroundColor = battery.allianceColor === "blue" ? "#3d6cef" : "#ef3d3d"; //"#ef3d3d" : "#3d6cef";
 
         let matchTime = document.createElement('p');
         matchTime.classList.add('match_time');
@@ -71,8 +69,6 @@ function loadBatteriesOnline(batteries) {
 
         batNum.id = `batnum${battery.number}`;
         batNum.innerText = battery.number;
-
-
         
         let input = document.createElement('input');
         input.id = `textbox${battery.number}`;
