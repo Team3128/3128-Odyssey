@@ -1,3 +1,5 @@
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 import * as THREE from 'three';
 
 const scene = new THREE.Scene();
@@ -23,3 +25,15 @@ function animate() {
   renderer.render( scene, camera );
 
 }
+
+const loader = new GLTFLoader();
+
+loader.load( 'elevator.glb', function ( gltf ) {
+
+  scene.add( gltf.scene );
+
+}, undefined, function ( error ) {
+
+  console.error( error );
+
+} );
