@@ -28,7 +28,7 @@ scene.add(directionalLight);
 
 // Load STL model
 const loader = new STLLoader();
-loader.load('________________________________________', geometry => {
+loader.load('https://cdn.glitch.me/1052a5f7-1177-478c-9bd2-75bdc847f665/Elevator%20STL.stl?v=1744551897685', geometry => {
   const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
