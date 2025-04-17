@@ -8,8 +8,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function setupBatteriesOnline() {
+    callPeriodically(getAPICalls, interval);
+}
+
+function getAPICalls() {
+    updateTBAData();
     updateNexusData();
-    callPeriodically(updateTBAData, interval);
+    updateTBARankings();
 }
 
 async function updateTBAData() {
@@ -28,6 +33,13 @@ async function updateTBAData() {
     }
 
     loadMatches(QMData);
+}
+
+async function updateTBARankings() {
+    let rankingsData = await generateEventAPIUrl(eventKey, teamNumber, authKey).then(fetchTBAData);
+    console.log(rankingsData);
+    let rankings = getRankings(rankingsData);
+    console.log(rankings);
 }
 
 async function updateNexusData() {
@@ -157,6 +169,14 @@ function getQMData(TBAData) {
         matchNumber: match.match_number,
         allianceColor: getAllianceColor(match),
         time: getTime(match)
+    }))
+}
+
+function getRankings(TBAData) {
+    return TBAData.rankings.map(team => ({
+        teamNumber: team.team_key.splice(0, 3),
+        avgEPA: team.sort_orders[0],
+        kda: "" + team.records.wins + "-" + team.records.losses
     }))
 }
 

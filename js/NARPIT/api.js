@@ -11,9 +11,14 @@ async function generateTeamsAPIUrl(eventKey, authKey) {
     eventKey + "/teams/simple?X-TBA-Auth-Key=" + authKey;
 }
 
+async function generateEventAPIUrl(eventKey, authKey) {
+    return "https://www.thebluealliance.com/api/v3/event/" + 
+    eventKey + "/rankings?X-TBA-Auth-Key=" + authKey;
+}
+
 async function fetchNexusData(eventKey, nexusKey) {
     // const response = await fetch(`https://frc.nexus/api/v1/event/${eventKey}`, {
-    const response = await fetch(`https://frc.nexus/api/v1/event/demo6565`, {
+    const response = await fetch(`https://frc.nexus/api/v1/event/2025galileo`, {
         method: 'GET',
         headers: {
           'Nexus-Api-Key': nexusKey,
