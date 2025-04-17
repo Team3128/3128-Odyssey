@@ -1,11 +1,35 @@
 const authKey = "V3i857s3hLtePEnhqMeSFUSxaqRJeiXIUyHMEEcNXhRkLTYEDbUS4ngKwDiBrj2b";
+const nexusKey = "_ZDfr-B2ds6_-cz5500I2SeNgnQ"
 
-// const interval = 600000;
-const interval = 30000;
-
-async function generateAPIUrl(eventKey, authKey) {
-    return "https://www.thebluealliance.com/api/v3/team/frc3128/event/" + 
+async function generateMatchAPIUrl(eventKey, teamNumber, authKey) {
+    return "https://www.thebluealliance.com/api/v3/team/frc" + teamNumber + "/event/" + 
     eventKey + "/matches/simple?X-TBA-Auth-Key=" + authKey;
+}
+
+async function generateTeamsAPIUrl(eventKey, authKey) {
+    return "https://www.thebluealliance.com/api/v3/event/" + 
+    eventKey + "/teams/simple?X-TBA-Auth-Key=" + authKey;
+}
+
+async function fetchNexusData(eventKey, nexusKey) {
+    // const response = await fetch(`https://frc.nexus/api/v1/event/${eventKey}`, {
+    const response = await fetch(`https://frc.nexus/api/v1/event/demo6565`, {
+        method: 'GET',
+        headers: {
+          'Nexus-Api-Key': nexusKey,
+        },
+    });
+
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        console.error('Error getting live event status:', errorMessage);
+        return;
+    }
+
+    const data = await response.json();
+    console.log('Successfully got live event status', data);
+    
+    return data;
 }
 
 async function fetchTBAData(apiUrl) {
@@ -16,6 +40,7 @@ async function fetchTBAData(apiUrl) {
         }
         var allData = await response.json();
         allData = JSON.parse(JSON.stringify(allData));
+        
         return allData != null ? allData : -1;
     } catch (error) {
         console.error(error);
